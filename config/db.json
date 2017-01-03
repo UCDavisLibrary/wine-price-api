@@ -1,0 +1,39 @@
+{
+  "development": {
+    "main": {
+      "adapter": "postgres",
+      "port": "5432",
+      "user": "quinn",
+			"password":"quinnIsGreat",
+			"host":"localhost",
+      "database": "wine_price_development",
+			"template" : "wine_price_template",
+			"additional_types": {
+				"wine_type": {"dbName": "wine.type" },
+				"wine_color" : {"dbName": "wine.color"},
+				"wine_bottle" : { "dbName": "wine.bottle" }
+			}
+    }
+  },
+  "test": {
+    "main": {
+      "adapter": "postgres",
+      "host": "localhost",
+      "port": "5432",
+      "user": "postgres",
+      "password": "",
+      "database": "twitterclone_test"
+    }
+  },
+  "production": {
+    "main": {
+      "adapter": "postgres",
+      "host": "{{= env.DATABASE_HOST }}",
+      "port": "{{= env.DATABASE_PORT }}",
+      "user": "{{= env.DATABASE_USER }}",
+      "password": "{{= env.DATABASE_PASSWORD }}",
+      "database": "{{= env.DATABASE_DB }}",
+      "connectionString": "{{= env.DATABASE_URL }}"
+    }
+  }
+}
