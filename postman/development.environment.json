@@ -1,0 +1,34 @@
+{
+  "id": "5ecdac03-713a-d6a5-eb4a-b604da688eda",
+  "name": "Wine Prices API - development",
+  "values": [
+    {
+      "key": "url",
+      "value": "http://localhost:3000",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "user_id",
+      "value": "1",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "username",
+      "value": "qjhart",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "v",
+      "value": "v1",
+      "type": "text",
+      "enabled": true
+    }
+  ],
+  "timestamp": 1483554492667,
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2017-01-04T19:12:04.361Z",
+  "_postman_exported_using": "Postman/4.9.2"
+}
