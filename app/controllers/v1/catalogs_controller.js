@@ -50,7 +50,7 @@ class V1CatalogsController extends AuthController {
 
       Catalog.create(data,(err, model) => {
         if (err) { this.respond(err) }
-        this.respond(model);
+          this.respond(model,project.default);
       });
     });
   }

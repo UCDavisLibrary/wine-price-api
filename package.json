@@ -1,7 +1,7 @@
 {
-  "name": "twitterclone",
+  "name": "wine-price-api",
   "version": "0.0.0",
-  "description": "twitterclone",
+  "description": "wine-price-api",
   "author": "Quinn Hart",
   "main": "cluster.js",
   "engines": {
@@ -10,8 +10,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.0",
     "lodash": "^4.17.3",
-    "nodal": "0.12.10",
-    "pg-large-object": "^1.0.1"
+    "nodal": "file:../nodal"
   },
   "devDependencies": {
     "chai": "~3.5.0",

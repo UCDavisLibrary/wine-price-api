@@ -1,0 +1,30 @@
+version: '2'
+
+volumes:
+  db:
+  
+services:
+  db:
+    image: postgres:9.6
+    volumes:
+    - db:/var/lib/postgresql/data
+
+  db_ext:
+    extends: db
+    volumes:
+    - ./:/app
+
+  web:
+    image: node:latest
+    environment:
+    - NODE_ENV=test
+    - MAX_UPLOAD_SIZE=40MB
+    volumes:
+    - ./:/app
+    - ../nodal:/nodal
+    command: bash -c "cd /app && npm install && npm start"
+    links:
+    - db
+    ports:
+      - "3000:3000"
+
