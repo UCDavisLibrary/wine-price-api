@@ -52,25 +52,24 @@ class V1LabelsController extends AuthController {
       let image=this.params.body.image;
       let thumbnail=this.params.body.thumbnail;
 
+      let data=_.omit(this.params.body,['image','thumbnail']);
 
-      let data=_.omit(this.params.body,['thumbnail']);
-//      let data=_.omit(this.params.body,['image','thumbnail']);
+      if (typeof image == "string" ) {
+        let s=image;
+        image=new Buffer(s);
+        image.contentType='image/foo';
+      }
+      if (typeof thumbnail == "string" ) {
+        let s=thumbnail;
+        thumbnail=new Buffer(s);
+        thumbnail.contentType='image/foo';
+      }
 
-      console.log("data:"+JSON.stringify(data));
+      data.image_contenttype=image.contentType;
+      data.image=image;
 
-      console.log("thumbnail:"+JSON.stringify(thumbnail));
-      console.log("thumbnail typeof:"+typeof thumbnail);
-
-//      data.image_contenttype=image.contentType;
-      //      data.image=image;
-      data.image_contenttype='foo';
-      data.image=thumbnail;
-
-//      data.thumbnail_contenttype=thumbnail.contentType;
-      data.thumbnail_contenttype='foo';
+      data.thumbnail_contenttype=thumbnail.contentType;
       data.thumbnail=thumbnail;
-
-      console.log("data:"+JSON.stringify(data));
 
       Label.create(data, (err, model) => {
         if (err) { this.respond(err) }
