@@ -1,6 +1,6 @@
 {
-  "development": {
-    "User": [
+	"development": {
+		"User": [
       {
         "id": 1,
         "email": "qjhart@gmail.com",
@@ -50,6 +50,13 @@
         "ip_address": "",
         "created_at": "2016-12-25 04:32:54.541",
         "updated_at": "2016-12-25 04:32:54.543"
+      }
+    ],
+    "LabelCollection": [
+      {
+        "id":1,
+        "title":"The Amerine Label Collection",
+        "publisher":"UC Davis Library"
       }
     ],
     "Provenance": [

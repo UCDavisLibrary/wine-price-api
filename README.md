@@ -15,8 +15,8 @@ development and testing environment have been included.  You will see the
 development version includes some precooked users and access_tokens that can be
 used directly.
 
-
 ## Running
+
 
 The two modes for running this server are in development and testing mode.
 Typically, we develop on a machine that is running postgresql and node natively.

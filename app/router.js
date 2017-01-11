@@ -36,6 +36,10 @@ const V1AccessTokensController = Nodal.require('app/controllers/v1/access_tokens
 const V1CatalogsController = Nodal.require('app/controllers/v1/catalogs_controller.js');
 const V1CatalogsFileController = Nodal.require('app/controllers/v1/catalogs_file_controller.js');
 const V1UserAclsController = Nodal.require('app/controllers/v1/user_acls_controller.js');
+const V1LabelCollectionsController = Nodal.require('app/controllers/v1/label_collections_controller.js');
+const LanguagesController = Nodal.require('app/controllers/languages_controller.js');
+const CountriesController = Nodal.require('app/controllers/countries_controller.js');
+const V1LabelsController = Nodal.require('app/controllers/v1/labels_controller.js');
 
 /* generator: end imports */
 
@@ -50,6 +54,10 @@ router.route('/v1/access_tokens/{id}').use(V1AccessTokensController);
 router.route('/v1/catalogs/{id}').use(V1CatalogsController);
 router.route('/v1/catalogs/{id}/file').use(V1CatalogsFileController);
 router.route('/v1/user_acls/{id}').use(V1UserAclsController);
+router.route('/v1/label_collections/{id}').use(V1LabelCollectionsController);
+router.route('/languages/{id}').use(LanguagesController);
+router.route('/countries/{id}').use(CountriesController);
+router.route('/v1/labels/{id}').use(V1LabelsController);
 
 /* generator: end routes */
 
