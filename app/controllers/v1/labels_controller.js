@@ -41,7 +41,7 @@ class V1LabelsController extends AuthController {
 
     Label.find(this.params.route.id, (err, model) => {
 
-      this.respond(err || model);
+      this.respond(err || model,project.full);
 
     });
 

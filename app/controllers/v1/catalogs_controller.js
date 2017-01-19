@@ -56,23 +56,19 @@ class V1CatalogsController extends AuthController {
   }
 
   update() {
-
-    Catalog.update(this.params.route.id, this.params.body, (err, model) => {
-
-      this.respond(err || model);
-
+    this.is_admin( ( accessToken, user ) => {
+      Catalog.update(this.params.route.id, this.params.body, (err, model) => {
+        this.respond(err || model);
+      });
     });
-
   }
 
   destroy() {
-
-    Catalog.destroy(this.params.route.id, (err, model) => {
-
-      this.respond(err || model);
-
+    this.is_admin( ( accessToken, user ) => {
+      Catalog.destroy(this.params.route.id, (err, model) => {
+        this.respond(err || model);
+      });
     });
-
   }
 
 }
