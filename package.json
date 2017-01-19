@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.0",
-    "lodash": "^4.17.3",
-    "nodal": "file:../nodal"
+    "canvas": "^1.6.2",
+    "lodash": "^4.17.4",
+    "nodal": "file:../nodal",
+    "pdfjs-dist": "^1.6.463"
   },
   "devDependencies": {
     "chai": "~3.5.0",
@@ -19,7 +21,8 @@
   "scripts": {
     "test": "mocha ./test/runner.js",
     "start": "node cluster.js",
-    "worker": "node worker.js"
+    "worker": "node worker.js",
+    "debug": "node --inspect --debug-brk debug.js"
   },
   "private": true
 }
