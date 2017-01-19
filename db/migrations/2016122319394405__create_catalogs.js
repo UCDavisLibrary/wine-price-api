@@ -21,7 +21,9 @@ class CreateCatalogs extends Nodal.Migration {
           {"name":"year","type":"int"},
           {"name":"filename","type":"text"},
           {"name":"contenttype","type":"text"},
-          {"name":"contents","type":"buffer"}
+          {"name":"contents","type":"buffer"},
+          {"name":"thumbnail","type":"buffer"},
+          {"name":"thumbnail_contenttype","type":"text"}
         ])
     ];
 

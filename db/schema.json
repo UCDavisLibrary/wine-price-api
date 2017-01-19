@@ -1,6 +1,6 @@
 {
 
-  "migration_id": 2016122320094232,
+  "migration_id": 2017011915344490,
 
   "models": {
 
@@ -34,6 +34,90 @@
         {"name": "filename", "type": "text", "properties": {}},
         {"name": "contenttype", "type": "text", "properties": {}},
         {"name": "contents", "type": "buffer", "properties": {}},
+        {"name": "created_at", "type": "datetime", "properties": {}},
+        {"name": "updated_at", "type": "datetime", "properties": {}}
+      ]
+
+    },
+
+    "Country": {
+
+      "table": "countries",
+
+      "columns": [
+        {"name": "id", "type": "serial", "properties": {"nullable":false,"primary_key":true,"auto_increment":true}},
+        {"name": "country", "type": "text", "properties": {}},
+        {"name": "created_at", "type": "datetime", "properties": {}},
+        {"name": "updated_at", "type": "datetime", "properties": {}}
+      ]
+
+    },
+
+    "Label": {
+
+      "table": "labels",
+
+      "columns": [
+        {"name": "id", "type": "serial", "properties": {"nullable":false,"primary_key":true,"auto_increment":true}},
+        {"name": "label_collection_id", "type": "int", "properties": {}},
+        {"name": "title", "type": "text", "properties": {}},
+        {"name": "type", "type": "wine_type", "properties": {}},
+        {"name": "color", "type": "wine_color", "properties": {}},
+        {"name": "country", "type": "text", "properties": {}},
+        {"name": "language", "type": "text", "properties": {}},
+        {"name": "varietal", "type": "text", "properties": {}},
+        {"name": "otherdesignation", "type": "text", "properties": {}},
+        {"name": "vintage_date", "type": "int", "properties": {}},
+        {"name": "thumbnail", "type": "buffer", "properties": {}},
+        {"name": "thumbnail_contenttype", "type": "text", "properties": {}},
+        {"name": "image", "type": "buffer", "properties": {}},
+        {"name": "image_contenttype", "type": "text", "properties": {}},
+        {"name": "created_at", "type": "datetime", "properties": {}},
+        {"name": "updated_at", "type": "datetime", "properties": {}}
+      ]
+
+    },
+
+    "LabelCollection": {
+
+      "table": "label_collections",
+
+      "columns": [
+        {"name": "id", "type": "serial", "properties": {"nullable":false,"primary_key":true,"auto_increment":true}},
+        {"name": "title", "type": "text", "properties": {}},
+        {"name": "publisher", "type": "text", "properties": {}},
+        {"name": "created_at", "type": "datetime", "properties": {}},
+        {"name": "updated_at", "type": "datetime", "properties": {}}
+      ]
+
+    },
+
+    "Language": {
+
+      "table": "languages",
+
+      "columns": [
+        {"name": "id", "type": "serial", "properties": {"nullable":false,"primary_key":true,"auto_increment":true}},
+        {"name": "language", "type": "text", "properties": {}},
+        {"name": "created_at", "type": "datetime", "properties": {}},
+        {"name": "updated_at", "type": "datetime", "properties": {}}
+      ]
+
+    },
+
+    "Page": {
+
+      "table": "pages",
+
+      "columns": [
+        {"name": "id", "type": "serial", "properties": {"nullable":false,"primary_key":true,"auto_increment":true}},
+        {"name": "user_id", "type": "int", "properties": {}},
+        {"name": "catalog_id", "type": "int", "properties": {}},
+        {"name": "page", "type": "int", "properties": {}},
+        {"name": "thumbnail", "type": "buffer", "properties": {}},
+        {"name": "thumbnail_contenttype", "type": "text", "properties": {}},
+        {"name": "image", "type": "buffer", "properties": {}},
+        {"name": "image_contenttype", "type": "text", "properties": {}},
         {"name": "created_at", "type": "datetime", "properties": {}},
         {"name": "updated_at", "type": "datetime", "properties": {}}
       ]

@@ -5,7 +5,7 @@
 	"port": "5432",
 	"user": "quinn",
 	"password":"quinnIsGreat",
-	"host":"db",
+	"host":"localhost",
 	"database": "wine_price_development",
 	"template" : "wine_price_template",
 	"additional_types": {

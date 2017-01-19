@@ -13,8 +13,7 @@ The server API is documented, along with a number of example queries, as
 a [Postman Collection](postman/api_collection.json).  Additionally, a
 development and testing environment have been included.  You will see the
 development version includes some precooked users and access_tokens that can be
-used directly.
-
+used directly, without creating.
 
 ## Running
 
@@ -40,9 +39,9 @@ Either way, the app should be running on [localhost:3000](http://localhost:3000/
 ### Testing / Docker
 
 You can start the dockerified version of server with ```docker-compose up
-	web```.  This will start the web server and the postgres container as well.
-	Again, however, the host is started on port 3000.  Users will want to either
-	modify this location, or add a proxy server to connect to that port.
+web```. This will start the web server and the postgres container as well.
+Again, however, the host is started on port 3000. Users will want to either
+modify this location, or add a proxy server to connect to that port.
 
 ## Database
 
