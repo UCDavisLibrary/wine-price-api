@@ -1,28 +1,37 @@
 'use strict';
 
 const _ = require('lodash');
+
 const Nodal = require('nodal');
-const Page = Nodal.require('app/models/page.js');
+const Label = Nodal.require('app/models/label.js');
 const AuthController=Nodal.require('app/controllers/auth_controller.js');
 
 const project= {
-  default:["id","created_date","updated_date"
+  default:["id",
+           "title",
+           "country","language",
+           "color","varietal","otherdesignation",
+           "vintage_date",
           ],
   full:["id",
-        "created_date","updated_date",
-        {catalog:["id","title"]}
-       ],
+           "title",
+        "type","country","language",
+           "color","varietal","otherdesignation",
+           "vintage_date",
+           {label_collection:["id","title"]}
+          ],
 };
 
-class V1PagesController extends AuthController {
+
+class V1LabelsController extends AuthController {
 
   index() {
 
-    Page.query()
+    Label.query()
       .where(this.params.query)
       .end((err, models) => {
 
-        this.respond(err || models);
+        this.respond(err || models,project.default);
 
       });
 
@@ -30,9 +39,9 @@ class V1PagesController extends AuthController {
 
   show() {
 
-    Page.find(this.params.route.id, (err, model) => {
+    Label.find(this.params.route.id, (err, model) => {
 
-      this.respond(err || model);
+      this.respond(err || model,project.full);
 
     });
 
@@ -48,10 +57,11 @@ class V1PagesController extends AuthController {
       data.image_contenttype=image.contentType;
       data.image=image;
 
+      console.log(thumbnail);
       data.thumbnail_contenttype=thumbnail.contentType;
       data.thumbnail=thumbnail;
 
-      Page.create(data, (err, model) => {
+      Label.create(data, (err, model) => {
         if (err) { this.respond(err) }
           this.respond(model,project.default);
       });
@@ -64,15 +74,14 @@ class V1PagesController extends AuthController {
       let thumbnail=this.params.body.thumbnail;
 
       let data=_.omit(this.params.body,['image','thumbnail']);
-      if (image) {
-        data.image_contenttype=image.contentType;
-        data.image=image;
-      }
-      if (thumbnail) {
-        data.thumbnail_contenttype=thumbnail.contentType;
-        data.thumbnail=thumbnail;
-      }
-      Page.update(this.params.route.id, data,(err, model) => {
+
+      data.image_contenttype=image.contentType;
+      data.image=image;
+
+      data.thumbnail_contenttype=thumbnail.contentType;
+      data.thumbnail=thumbnail;
+
+      Label.create(data, (err, model) => {
         if (err) { this.respond(err) }
           this.respond(model,project.default);
       });
@@ -80,13 +89,15 @@ class V1PagesController extends AuthController {
   }
 
   destroy() {
-    this.is_admin( (accessToken, user ) => {
-      Page.destroy(this.params.route.id, (err, model) => {
-        this.respond(err || model);
-      });
+
+    Label.destroy(this.params.route.id, (err, model) => {
+
+      this.respond(err || model);
+
     });
+
   }
 
 }
 
-module.exports = V1PagesController;
+module.exports = V1LabelsController;

@@ -13,9 +13,10 @@ The server API is documented, along with a number of example queries, as
 a [Postman Collection](postman/api_collection.json).  Additionally, a
 development and testing environment have been included.  You will see the
 development version includes some precooked users and access_tokens that can be
-used directly, without creating.
+used directly, without explicitly creating them.
 
 ## Running
+
 
 The two modes for running this server are in development and testing mode.
 Typically, we develop on a machine that is running postgresql and node natively.

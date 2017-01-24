@@ -11,7 +11,8 @@ const project= {
            "year"
           ],
   full:["id","title","publisher",
-           "year",
+        "year","contenttype",
+        "thumbnail_contenttype",
         {user:["username"]}
        ]
 };
@@ -41,12 +42,21 @@ class V1CatalogsController extends AuthController {
 
   create() {
     this.is_admin( ( accessToken, user ) => {
-      let file=this.params.body.file;
-      let data=_.omit(this.params.body,['file']);
+      let file=this.params.body.contents;
+      let thumbnail=this.params.body.thumbnail;
+      let data=_.omit(this.params.body,['contents','thumbnail']);
 
-      data.contenttype=file.contentType;
-      data.filename=file.filename;
-      data.contents=file;
+      if (file) {
+        data.contenttype=file.contentType;
+        data.filename=file.filename;
+        data.contents=file;
+      }
+
+      if (thumbnail) {
+        console.log(thumbnail);
+        data.thumbnail_contenttype=thumbnail.contentType;
+        data.thumbnail=thumbnail;
+      }
 
       Catalog.create(data,(err, model) => {
         if (err) { this.respond(err) }
@@ -56,23 +66,36 @@ class V1CatalogsController extends AuthController {
   }
 
   update() {
+    this.is_admin( ( accessToken, user ) => {
+      let file=this.params.body.file;
+      let thumbnail=this.params.body.file;
+      let data=_.omit(this.params.body,['file']);
+      data.user_id=user.user_id;
 
-    Catalog.update(this.params.route.id, this.params.body, (err, model) => {
+      if (file) {
+        data.contenttype=file.contentType;
+        data.filename=file.filename;
+        data.contents=file;
+      }
 
-      this.respond(err || model);
+      if (thumbnail) {
+        data.thumbnail_contenttype=thumbnail.contentType;
+        data.thumbnail=thumbnail;
+        data.thumbnail_contenttype="foo";
+      }
 
+      Catalog.update(this.params.route.id,data, (err, model) => {
+        this.respond(err || model,project.default);
+      });
     });
-
   }
 
   destroy() {
-
-    Catalog.destroy(this.params.route.id, (err, model) => {
-
-      this.respond(err || model);
-
+    this.is_admin( ( accessToken, user ) => {
+      Catalog.destroy(this.params.route.id, (err, model) => {
+        this.respond(err || model,project.default);
+      });
     });
-
   }
 
 }
