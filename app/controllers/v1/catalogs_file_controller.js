@@ -18,9 +18,17 @@ class V1CatalogsFileController extends Nodal.Controller {
         }
         buffer = model.get('contents');
 
+        let type=model.get('contenttype');
+        let suf = type.split('/').pop();
+        let filename = model.get('title') || 'contents';
+        filename = `${filename}.${suf}`;
+
         this.setHeader(
           'Content-Type',
-          model.get('contenttype') || 'application/octet-stream');
+          type || 'application/octet-stream');
+
+        this.setHeader('Content-Disposition',`attachment; filename="${filename}"`);
+
         this.render(buffer);
 
     });

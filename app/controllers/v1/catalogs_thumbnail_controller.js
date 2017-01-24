@@ -21,15 +21,13 @@ class V1CatalogsThumbnailController extends Nodal.Controller {
         let type=model.get('thumbnail_contenttype');
         let suf = type.split('/').pop();
         let filename = model.get('title') || 'thumbnail';
-        filename .= '.'+suf;
+        filename = `${filename}.${suf}`;
 
         this.setHeader(
           'Content-Type',
           type || 'application/octet-stream');
 
-        this.setHeader(
-          'Content-Disposition',`inline; filename="${filename}"`
-        );
+        this.setHeader('Content-Disposition',`inline; filename="${filename}"`);
 
         this.render(buffer);
 
