@@ -11,6 +11,7 @@ class V1CatalogsThumbnailController extends Nodal.Controller {
     Catalog
     .find(
       this.params.route.id,
+      ['id','thumbnail','thumbnail_contenttype','title'],
       (err, model)  => {
         var buffer;
         if (err) {

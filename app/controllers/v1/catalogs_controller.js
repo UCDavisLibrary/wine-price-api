@@ -23,7 +23,8 @@ class V1CatalogsController extends AuthController {
 
     Catalog.query()
       .where(this.params.query)
-      .end((err, models) => {
+      .end(project.default,
+        (err, models) => {
 
         this.respond(err || models,project.default);
 
@@ -53,7 +54,6 @@ class V1CatalogsController extends AuthController {
       }
 
       if (thumbnail) {
-        console.log(thumbnail);
         data.thumbnail_contenttype=thumbnail.contentType;
         data.thumbnail=thumbnail;
       }
