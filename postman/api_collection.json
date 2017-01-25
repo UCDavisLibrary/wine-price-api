@@ -88,6 +88,72 @@
 					"response": []
 				},
 				{
+					"name": "List of Catalogs",
+					"request": {
+						"url": "{{url}}/{{v}}/catalogs/",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "terry",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "email",
+									"value": "terry@gmail.com",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "password",
+									"value": "terry",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "Example File Retrieval"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Single Catalog",
+					"request": {
+						"url": "{{url}}/{{v}}/catalogs/34",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "terry",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "email",
+									"value": "terry@gmail.com",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "password",
+									"value": "terry",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "This returns a single catalog entry."
+					},
+					"response": []
+				},
+				{
 					"name": "Retrieve a saved file",
 					"request": {
 						"url": "{{url}}/{{v}}/catalogs/1/file",
@@ -117,6 +183,444 @@
 							]
 						},
 						"description": "Example File Retrieval"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Catalog with PUT",
+					"request": {
+						"url": "{{url}}/{{v}}/catalogs/1?access_token={{token}}",
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"enabled": true,
+									"src": "6-Plain Facts Liquor and Wine PricesNew York State.pdf-0.png"
+								}
+							]
+						},
+						"description": "Administrators can update catalog.  They need to include any item they wish to update.\n\nRequired\n- access_token = Access token for uploads\n- file = The file to upload.  Please be a PDF\n\nOptional\n- title = The Catalog Title\n- page = The page number(s) of the passed data\n- year = The year the catalog was printed\n- publisher = Who printed the catalog\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve a saved file copy",
+					"request": {
+						"url": "{{url}}/{{v}}/catalogs/1/file",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "terry",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "email",
+									"value": "terry@gmail.com",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "password",
+									"value": "terry",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "Example File Retrieval"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve a saved catalog thumbnail",
+					"request": {
+						"url": "{{url}}/{{v}}/catalogs/1/thumbnail",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "terry",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "email",
+									"value": "terry@gmail.com",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "password",
+									"value": "terry",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "Example File Retrieval"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Label Queries",
+			"description": "",
+			"item": [
+				{
+					"name": "Post a new Label",
+					"request": {
+						"url": "{{url}}/{{v}}/labels?access_token={{token}}",
+						"method": "POST",
+						"header": [
+							{
+								"key": "//Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "0005",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"enabled": true,
+									"src": "foo"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"enabled": true,
+									"src": "foo"
+								},
+								{
+									"key": "type",
+									"value": "still",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "country",
+									"value": "ESP",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "language",
+									"value": "spa",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "label_collection_id",
+									"value": "1",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "Administrators can post new label to the server.  They need to include:\n\nRequired\n- access_token = Access token for uploads\n- label_collection_id = Collection the Lable belongs in\n- image = The label image to upload\n- thumbnail = The label thumbnail to upload\n\nOptional\n- title = Label Title\n- color = Wine color (Red, White, Rose)\n- type = (Still, Sparkling, Fortified)\n- varietal\n- otherdesignation = \n- vintage_date = (Int) The year for the label\n- brandname = The Brand Name of the wine"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Labels",
+					"request": {
+						"url": "{{url}}/{{v}}/labels",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "0005",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"enabled": true,
+									"src": "full.jpg"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"enabled": true,
+									"src": "thumbnail.jpg"
+								},
+								{
+									"key": "type",
+									"value": "still",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "country",
+									"value": "ESP",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "language",
+									"value": "spa",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "label_collection_id",
+									"value": "1",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "Administrators can post new label to the server.  They need to include:\n\nRequired\n- access_token = Access token for uploads\n- label_collection_id = Collection the Lable belongs in\n- image = The label image to upload\n- thumbnail = The label thumbnail to upload\n\nOptional\n- title = Label Title\n- color = Wine color (Red, White, Rose)\n- type = (Still, Sparkling, Fortified)\n- varietal\n- otherdesignation = \n- vintage_date = (Int) The year for the label\n- brandname = The Brand Name of the wine"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Labels copy",
+					"request": {
+						"url": "{{url}}/{{v}}/labels",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "0005",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"enabled": true,
+									"src": "full.jpg"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"enabled": true,
+									"src": "thumbnail.jpg"
+								},
+								{
+									"key": "type",
+									"value": "still",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "country",
+									"value": "ESP",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "language",
+									"value": "spa",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "label_collection_id",
+									"value": "1",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "Administrators can post new label to the server.  They need to include:\n\nRequired\n- access_token = Access token for uploads\n- label_collection_id = Collection the Lable belongs in\n- image = The label image to upload\n- thumbnail = The label thumbnail to upload\n\nOptional\n- title = Label Title\n- color = Wine color (Red, White, Rose)\n- type = (Still, Sparkling, Fortified)\n- varietal\n- otherdesignation = \n- vintage_date = (Int) The year for the label\n- brandname = The Brand Name of the wine"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pages",
+			"description": "Individual Catalog Pages",
+			"item": [
+				{
+					"name": "Get Pages",
+					"request": {
+						"url": "{{url}}/{{v}}/pages",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "0005",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"enabled": true,
+									"src": "full.jpg"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"enabled": true,
+									"src": "thumbnail.jpg"
+								},
+								{
+									"key": "type",
+									"value": "still",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "country",
+									"value": "ESP",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "language",
+									"value": "spa",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "label_collection_id",
+									"value": "1",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "Administrators can post new label to the server.  They need to include:\n\nRequired\n- access_token = Access token for uploads\n- label_collection_id = Collection the Lable belongs in\n- image = The label image to upload\n- thumbnail = The label thumbnail to upload\n\nOptional\n- title = Label Title\n- color = Wine color (Red, White, Rose)\n- type = (Still, Sparkling, Fortified)\n- varietal\n- otherdesignation = \n- vintage_date = (Int) The year for the label\n- brandname = The Brand Name of the wine"
+					},
+					"response": []
+				},
+				{
+					"name": "Post a new Catalog Page",
+					"request": {
+						"url": "{{url}}/{{v}}/pages?access_token={{token}}",
+						"method": "POST",
+						"header": [
+							{
+								"key": "//Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "catalog_id",
+									"value": "1",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"enabled": true,
+									"src": "6-Plain Facts Liquor and Wine PricesNew York State.pdf-0.png"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"enabled": true,
+									"src": "6-Plain Facts Liquor and Wine PricesNew York State.pdf-0.png"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "Administrators can post new catalog to the server.  They need to include:\n\nRequired\n- access_token = Access token for uploads\n- catalog_id = Collection the Label belongs in\n- image = The label image to upload\n- thumbnail = The label thumbnail to upload\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Catalog Page",
+					"request": {
+						"url": "{{url}}/{{v}}/pages/1?access_token={{token}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "//Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "page",
+									"value": "1",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "Administrators can use Put to update an existing page.  They need to include:\n\nRequired\n- access_token = Access token for uploads\n- catalog_id = Collection the Label belongs in\n- image = The label image to upload\n- thumbnail = The label thumbnail to upload\n\n"
 					},
 					"response": []
 				}
