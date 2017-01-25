@@ -2,17 +2,13 @@ version: '2'
 
 volumes:
   db:
-  
+
 services:
   db:
     image: postgres:9.6
     volumes:
     - db:/var/lib/postgresql/data
-
-  db_ext:
-    extends: db
-    volumes:
-    - ./:/app
+#    - ./:/app
 
   web:
     image: node:latest
@@ -27,4 +23,3 @@ services:
     - db
     ports:
       - "3000:3000"
-
