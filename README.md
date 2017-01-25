@@ -78,3 +78,44 @@ su - postgres
 createdb wine_price_template
 psql -d wine_price_template -f /app/db/template.sql
 ```
+
+### Sherry Lehmann Catalogs.
+
+In the end, we should have a mechanism where when catalogs are loaded, they will
+automatically be paginated with proper thumbnails.  Currently we are doing that
+seperately, and uploading these data by themselves.  In some ways that is better
+in the sense that for docker installations, we do not need to have special
+images.  This administration step could be done via a browser, and using this
+same type of setup.
+
+#### Creating the catalog data.
+
+We do not use the high resolution images for our tool.  Instead, we build these
+from our PDF.  The idea here that that is more general of a solution.
+
+This script below makes the thumbnails and all the pages.
+
+``` bash
+for f in ?-*.pdf ??-*.pdf ???-*.pdf; do
+ echo -n $f; echo -n " thumb";
+ convert -quality 75 -thumbnail 20% "$f" "thumbnails/$f.png";
+ echo -n " images";
+ convert -density 150 "$f" "images/$f.png";
+ echo  "";
+done
+```
+
+#### Uploading the data
+
+``` bash
+url=http://api.labels.qjhart.org;
+token=qjh;
+for f in ???-*.pdf;
+ do
+ echo "$f";
+ t=`basename "$f" .pdf`;
+ /usr/local/bin/http --form POST ${url}/v1/catalogs?access_token=${token} \
+ title="$t" contents@"$f" thumbnail@"thumbnails/$f-0.png"
+ publisher="Sherry-Lehmann Inc.";
+done
+```

@@ -27,7 +27,8 @@ class V1CatalogsFileController extends Nodal.Controller {
           'Content-Type',
           type || 'application/octet-stream');
 
-        this.setHeader('Content-Disposition',`attachment; filename="${filename}"`);
+        this.setHeader('Content-Disposition',`filename="${filename}"`);
+//        this.setHeader('Content-Disposition',`attachment; filename="${filename}"`);
 
         this.render(buffer);
 

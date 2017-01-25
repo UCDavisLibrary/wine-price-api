@@ -11,6 +11,7 @@ class V1LabelsImageController extends Nodal.Controller {
     Labels
     .find(
       this.params.route.id,
+      ['id','contenttype','image'],
       (err, model)  => {
         var buffer;
         if (err) {

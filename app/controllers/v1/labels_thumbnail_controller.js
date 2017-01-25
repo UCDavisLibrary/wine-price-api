@@ -11,6 +11,7 @@ class V1LabelsThumbnailController extends Nodal.Controller {
     Labels
     .find(
       this.params.route.id,
+      ['id','thumbnail_contenttype','thumbnail'],
       (err, model)  => {
         var buffer;
         if (err) {

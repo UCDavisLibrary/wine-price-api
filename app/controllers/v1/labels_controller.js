@@ -29,7 +29,7 @@ class V1LabelsController extends AuthController {
 
     Label.query()
       .where(this.params.query)
-      .end((err, models) => {
+      .end(project.default,(err, models) => {
 
         this.respond(err || models,project.default);
 
@@ -39,7 +39,7 @@ class V1LabelsController extends AuthController {
 
   show() {
 
-    Label.find(this.params.route.id, (err, model) => {
+    Label.find(this.params.route.id, project.full,(err, model) => {
 
       this.respond(err || model,project.full);
 
