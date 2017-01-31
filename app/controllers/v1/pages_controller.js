@@ -6,10 +6,10 @@ const Page = Nodal.require('app/models/page.js');
 const AuthController=Nodal.require('app/controllers/auth_controller.js');
 
 const project= {
-  default:["id","created_date","updated_date"
+  default:["id","catalog_id","page","created_at","updated_at"
           ],
-  full:["id",
-        "created_date","updated_date",
+  full:["id","page",
+        "created_at","updated_at",
         {catalog:["id","title"]}
        ],
 };
@@ -20,22 +20,17 @@ class V1PagesController extends AuthController {
 
     Page.query()
       .where(this.params.query)
-      .end((err, models) => {
-
-        this.respond(err || models);
-
-      });
-
+      .orderBy(()=>{return ['catalog_id','page'];})
+      .end(project.default,
+           (err, models) => {
+             this.respond(err || models,project.default);
+           });
   }
 
   show() {
-
     Page.find(this.params.route.id, (err, model) => {
-
-      this.respond(err || model);
-
+      this.respond(err || model,project.full);
     });
-
   }
 
   create() {

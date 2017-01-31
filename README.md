@@ -107,6 +107,7 @@ done
 
 #### Uploading the data
 
+
 ``` bash
 url=http://api.labels.qjhart.org;
 token=qjh;
@@ -117,5 +118,29 @@ for f in ???-*.pdf;
  /usr/local/bin/http --form POST ${url}/v1/catalogs?access_token=${token} \
  title="$t" contents@"$f" thumbnail@"thumbnails/$f-0.png"
  publisher="Sherry-Lehmann Inc.";
+done
+```
+
+#### Uploading the pages
+
+The pages are a little more complicated in that we need to get the id of each
+catalog as we enter in the pages.  Otherwise, it's fairly similar to that above.
+
+``` bash
+url=http://api.labels.qjhart.org/v1;
+for f in ??-*.pdf; do
+  t=`basename "$f" .pdf`;
+  id=`/usr/local/bin/http --form GET ${url}/catalogs?title="$t"
+					 | jq -r .data[].id`;
+  if [[ $id ]]; then
+    for p in "images/$f"-*.png; do
+      g=${p##*-}; g=${g%.png};
+      t=${p/images/thumbnails};
+			/usr/local/bin/http --form POST ${url}/pages?access_token=qjh
+      catalog_id=$id page=$g thumbnail@"$t" image@"$p";
+    done
+  else
+    echo $t NO;
+  fi ;
 done
 ```
