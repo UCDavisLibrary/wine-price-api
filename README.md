@@ -2,10 +2,9 @@
 
 This project is the server API for delivering wine price data. It will also be
 used as the source for creating provenance for these price data.  This server is
-based on a fork of the [NODAL](http://github.com/qjhart/nodal) platform.
+based on a fork of the [nodal](http://github.com/qjhart/nodal) platform.
 
-Currently, the testing server is available at (http://labelthis.qjhart.org),
-with a corresponding [Example Dataset](http://labelthis.qjhart.org/wine_prices)
+![Overview](https://docs.google.com/drawings/d/1fKMGRz2GT_10k2RfALa5yIVXz8Mv4AATa_Fsdx9prrA/pub?w=1440&amp;h=1080")
 
 ## The API
 
@@ -16,7 +15,6 @@ development version includes some precooked users and access_tokens that can be
 used directly, without explicitly creating them.
 
 ## Running
-
 
 The two modes for running this server are in development and testing mode.
 Typically, we develop on a machine that is running postgresql and node natively.
@@ -85,8 +83,8 @@ In the end, we should have a mechanism where when catalogs are loaded, they will
 automatically be paginated with proper thumbnails.  Currently we are doing that
 seperately, and uploading these data by themselves.  In some ways that is better
 in the sense that for docker installations, we do not need to have special
-images.  This administration step could be done via a browser, and using this
-same type of setup.
+image modification software.  Additonally, the administration step could be done via a browser, using this
+same type of setup.  For example, we've verified that you can use pdf.js to build the individual page images from the pdf files.  We've also verified that this *almost* works in nodejs using pdf.js.  The problem being that an event is needed to know when the composition of the image is complete.
 
 #### Creating the catalog data.
 
