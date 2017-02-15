@@ -14,7 +14,7 @@
 				{
 					"name": "request a new access token",
 					"request": {
-						"url": "{{url}}/{{v}}/access_tokens",
+						"url": "{{url}}/access_tokens",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -47,7 +47,7 @@
 				{
 					"name": "get a list of access tokens",
 					"request": {
-						"url": "{{url}}/{{v}}/access_tokens?access_token={{token}}",
+						"url": "{{url}}/access_tokens?access_token={{token}}",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -64,7 +64,7 @@
 				{
 					"name": "Post a new Catalog file",
 					"request": {
-						"url": "{{url}}/{{v}}/catalogs?access_token={{token}}",
+						"url": "{{url}}/catalogs?access_token={{token}}",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -90,7 +90,7 @@
 				{
 					"name": "List of Catalogs",
 					"request": {
-						"url": "{{url}}/{{v}}/catalogs/",
+						"url": "{{url}}/catalogs/",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -123,7 +123,7 @@
 				{
 					"name": "Get a Single Catalog",
 					"request": {
-						"url": "{{url}}/{{v}}/catalogs/34",
+						"url": "{{url}}/catalogs/34",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -156,7 +156,7 @@
 				{
 					"name": "Retrieve a saved file",
 					"request": {
-						"url": "{{url}}/{{v}}/catalogs/1/file",
+						"url": "{{url}}/catalogs/1/file",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -189,7 +189,7 @@
 				{
 					"name": "Update a Catalog with PUT",
 					"request": {
-						"url": "{{url}}/{{v}}/catalogs/1?access_token={{token}}",
+						"url": "{{url}}/catalogs/1?access_token={{token}}",
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -210,7 +210,7 @@
 				{
 					"name": "Retrieve a saved file copy",
 					"request": {
-						"url": "{{url}}/{{v}}/catalogs/1/file",
+						"url": "{{url}}/catalogs/1/file",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -243,7 +243,7 @@
 				{
 					"name": "Retrieve a saved catalog thumbnail",
 					"request": {
-						"url": "{{url}}/{{v}}/catalogs/1/thumbnail",
+						"url": "{{url}}/catalogs/1/thumbnail",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -282,7 +282,7 @@
 				{
 					"name": "Post a new Label",
 					"request": {
-						"url": "{{url}}/{{v}}/labels?access_token={{token}}",
+						"url": "{{url}}/labels?access_token={{token}}",
 						"method": "POST",
 						"header": [
 							{
@@ -352,7 +352,7 @@
 				{
 					"name": "Get Labels",
 					"request": {
-						"url": "{{url}}/{{v}}/labels",
+						"url": "{{url}}/labels",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -415,7 +415,7 @@
 				{
 					"name": "Get Labels copy",
 					"request": {
-						"url": "{{url}}/{{v}}/labels",
+						"url": "{{url}}/labels",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -484,7 +484,7 @@
 				{
 					"name": "Get Pages",
 					"request": {
-						"url": "{{url}}/{{v}}/pages",
+						"url": "{{url}}/pages",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -547,7 +547,7 @@
 				{
 					"name": "Post a new Catalog Page",
 					"request": {
-						"url": "{{url}}/{{v}}/pages?access_token={{token}}",
+						"url": "{{url}}/pages?access_token={{token}}",
 						"method": "POST",
 						"header": [
 							{
@@ -593,7 +593,7 @@
 				{
 					"name": "Update a Catalog Page",
 					"request": {
-						"url": "{{url}}/{{v}}/pages/1?access_token={{token}}",
+						"url": "{{url}}/pages/1?access_token={{token}}",
 						"method": "PUT",
 						"header": [
 							{
@@ -633,7 +633,7 @@
 				{
 					"name": "Wine Price Count and Offset",
 					"request": {
-						"url": "{{url}}/{{v}}/wine_prices?vintage_date__gte=1950&__count=5",
+						"url": "{{url}}/wine_prices?vintage_date__gte=1950&__count=5",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -672,7 +672,7 @@
 				{
 					"name": "Wine Prices after 1950",
 					"request": {
-						"url": "{{url}}/{{v}}/wine_prices?vintage_date__gte=1950&__count=5",
+						"url": "{{url}}/wine_prices?vintage_date__gte=1950&__count=5",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -711,7 +711,7 @@
 				{
 					"name": "Search on multiple facets",
 					"request": {
-						"url": "{{url}}/{{v}}/wine_prices?type=still&color=white&vintage_date__lte=1950&vintage_date__gte=1945&brandname__icontains=vouvray",
+						"url": "{{url}}/wine_prices?type=still&color=white&vintage_date__lte=1950&vintage_date__gte=1945&brandname__icontains=vouvray",
 						"method": "GET",
 						"header": [],
 						"body": {

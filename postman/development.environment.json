@@ -19,12 +19,6 @@
       "value": "qjhart",
       "type": "text",
       "enabled": true
-    },
-    {
-      "key": "v",
-      "value": "v1",
-      "type": "text",
-      "enabled": true
     }
   ],
   "timestamp": 1483554492667,

@@ -1,6 +1,6 @@
 {
 
-  "migration_id": 2017011915344490,
+  "migration_id": 2017021408212099,
 
   "models": {
 
@@ -34,8 +34,6 @@
         {"name": "filename", "type": "text", "properties": {}},
         {"name": "contenttype", "type": "text", "properties": {}},
         {"name": "contents", "type": "buffer", "properties": {}},
-        {"name": "thumbnail_contenttype", "type": "text", "properties": {}},
-        {"name": "thumbnail", "type": "buffer", "properties": {}},
         {"name": "created_at", "type": "datetime", "properties": {}},
         {"name": "updated_at", "type": "datetime", "properties": {}}
       ]
@@ -120,6 +118,35 @@
         {"name": "thumbnail_contenttype", "type": "text", "properties": {}},
         {"name": "image", "type": "buffer", "properties": {}},
         {"name": "image_contenttype", "type": "text", "properties": {}},
+        {"name": "created_at", "type": "datetime", "properties": {}},
+        {"name": "updated_at", "type": "datetime", "properties": {}}
+      ]
+
+    },
+
+    "PriceMark": {
+
+      "table": "price_marks",
+
+      "columns": [
+        {"name": "id", "type": "serial", "properties": {"nullable":false,"primary_key":true,"auto_increment":true}},
+        {"name": "user_id", "type": "int", "properties": {}},
+        {"name": "page_id", "type": "int", "properties": {}},
+        {"name": "r", "type": "float", "properties": {}},
+        {"name": "c", "type": "float", "properties": {}},
+        {"name": "type", "type": "text", "properties": {}},
+        {"name": "color", "type": "text", "properties": {}},
+        {"name": "country", "type": "text", "properties": {}},
+        {"name": "varietal", "type": "text", "properties": {}},
+        {"name": "otherdesignation", "type": "text", "properties": {}},
+        {"name": "brandname", "type": "text", "properties": {}},
+        {"name": "winery_name", "type": "text", "properties": {}},
+        {"name": "vintage_date", "type": "int", "properties": {}},
+        {"name": "region", "type": "text", "properties": {}},
+        {"name": "bottlesize", "type": "text", "properties": {}},
+        {"name": "perprice", "type": "float", "properties": {}},
+        {"name": "caseprice", "type": "float", "properties": {}},
+        {"name": "note", "type": "text", "properties": {}},
         {"name": "created_at", "type": "datetime", "properties": {}},
         {"name": "updated_at", "type": "datetime", "properties": {}}
       ]

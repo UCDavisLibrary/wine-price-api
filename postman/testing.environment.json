@@ -9,12 +9,6 @@
       "enabled": true
     },
     {
-      "key": "v",
-      "value": "v1",
-      "type": "text",
-      "enabled": true
-    },
-    {
       "key": "username",
       "value": "GET VALID USER",
       "type": "text",
