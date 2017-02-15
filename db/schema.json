@@ -34,6 +34,8 @@
         {"name": "filename", "type": "text", "properties": {}},
         {"name": "contenttype", "type": "text", "properties": {}},
         {"name": "contents", "type": "buffer", "properties": {}},
+        {"name": "thumbnail_contenttype", "type": "text", "properties": {}},
+        {"name": "thumbnail", "type": "buffer", "properties": {}},
         {"name": "created_at", "type": "datetime", "properties": {}},
         {"name": "updated_at", "type": "datetime", "properties": {}}
       ]

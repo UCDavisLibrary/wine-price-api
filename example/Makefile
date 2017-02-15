@@ -29,7 +29,7 @@ upload-catalogs:
 		t=`basename "$$f" .pdf`;\
 	  d=$${t##* }; \
 		${http} --form POST ${host}/catalogs?access_token=${token} \
-		title="$$t" contents@"$$f" thumbnail@"thumbnails/$$f-0.png"\
+		title="$$t" contents@"$$f" thumbnail@"thumbnails/$$f-0.png" \
 		publisher="Sherry-Lehmann Inc." date="$$d"; \
 	done
 
