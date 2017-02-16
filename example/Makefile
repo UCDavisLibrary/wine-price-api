@@ -51,7 +51,7 @@ upload-pages:
 
 upload-marks:
 	@declare -a v=('Catalog' 'page' 'r' 'c' 'type' 'color' 'country' 'otherdesignation' 'brandname' 'vintage_date' 'region' 'bottlesize' 'perprice' 'caseprice' ); \
-	tail -n +2 example_markup.tsv |\
+	tail -n +2 example_markup.psv |\
 	while IFS='|' read -r -a m; do \
 		echo -n "item:$${m[0]}..";\
 	  id=`${http} ${host}/catalogs?title="$${m[0]}" | jq -r .data[].id`;\

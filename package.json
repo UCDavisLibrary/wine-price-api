@@ -11,7 +11,7 @@
     "bcryptjs": "^2.4.0",
     "canvas": "^1.6.2",
     "lodash": "^4.17.4",
-    "nodal": "file:/home/quinn/nodal",
+    "nodal": "qjhart/nodal",
     "pdfjs-dist": "^1.6.463"
   },
   "devDependencies": {
