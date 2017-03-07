@@ -7,35 +7,67 @@ token=qjh
 
 http:=/usr/local/bin/http --ignore-stdin
 
+pdfs:=$(shell ls *.pdf)
+images:=$(patsubst %,image/%,${pdfs})
+ocr:=$(patsubst %.pdf,ocr/%.txt,${pdfs})
+thumbs:=$(patsubst %,thumbnails/%,${pdfs})
+
+# These allow for sane processing of files with white space
+#s+ = $(subst \ ,+,$1)
+#+s = $(subst +,\ ,$1)
+
 INFO:
 	@echo "This uploads example data. Try make upload"
+	@echo pdfs: '${pdfs}'
+	@echo images: ${images+}
 
 upload: image-files upload-catalogs upload-pages upload-marks
 
-image-files:
-	@[[ -d images ]] || mkdir images;
-	@[[ -d thumbnails ]] || mkdir images;
-	@for f in *.pdf; do \
-		echo -n $$f; echo -n " thumbnail";\
-		convert -quality 75 -thumbnail 20% "$$f" "thumbnails/$$f.png";\
-		echo -n " images";\
-		convert -density 150 "$$f" "images/$$f.png";\
-		echo  "";\
-	done
+images:${images}
 
-upload-catalogs:
-	@for f in *.pdf; do\
-		echo "$$f";\
-		t=`basename "$$f" .pdf`;\
-	  d=$${t##* }; \
+${images}:image/%.png:%^
+	@[[ -d images ]] || mkdir images;
+	convert -density 150 "$<" "$@";\
+
+thumbs: ${thumbs}
+
+${thumbs}:thumbnails/%:%
+	@[[ -d thumbnails ]] || mkdir thumbnail;
+	convert -quality 75 -thumbnail 20% "$<" "$@";\
+
+ocr: ${ocr}
+${ocr}:ocr/%.txt:%.pdf
+	@[[ -d ocr ]] || mkdir ocr;
+	pdftotext -layout -fixed 80 $< $@
+
+ocr.put:=$(patsubst %,%.put,${ocr})
+
+ocr.put:${ocr.put}
+
+${ocr.put}:%.put:%
+	t=`basename "$<" .txt | tr '+' ' '`; \
+	id=`/usr/local/bin/http --form GET ${host}/catalogs?title="$$t" | jq -r .data[].id`; \
+	if [[ $$id ]]; then \
+		${http} --form PUT ${host}/catalogs/$$id?access_token=${token} ocr@"$<"; \
+    touch $@;\
+	  else \
+	    echo $$t NO;\
+	  fi ;\
+
+pdfs.post:=$(patsubst %,%.post,${pdfs})
+pdfs.post:${pdfs.post}
+
+${pdfs.post}:%.pdf.post:%.pdf
+		b=`basename "$<" .pdf`;\
+		t=`echo $b | tr '+' ' '`;\
+	  d=$${b##*+}; \
 		${http} --form POST ${host}/catalogs?access_token=${token} \
-		title="$$t" contents@"$$f" thumbnail@"thumbnails/$$f-0.png" \
-		publisher="Sherry-Lehmann Inc." date="$$d"; \
-	done
+		title="$$t" contents@"$<" thumbnail@"thumbnails/$<-0.png" \
+    ocr@"ocr/$*.txt" publisher="Sherry-Lehmann Inc." date="$$d";
 
 upload-pages:
 	@for f in *.pdf; do \
-	  t=`basename "$$f" .pdf`; \
+	  t=`basename "$$f" .pdf | tr '+' ' '`; \
 	  id=`/usr/local/bin/http --form GET ${host}/catalogs?title="$$t" | jq -r .data[].id`; \
 	  if [[ $$id ]]; then \
     for p in "images/$$f"-?.png "images/$$f"-??.png "images/$$f"-???.png; do \

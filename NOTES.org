@@ -1,0 +1,2 @@
+[[https://postgrest.com/en/v0.4/api.html][Pgrest]] is another example CRUD interface that we might consider.  This might  be
+easier to implement then the nodal one.
