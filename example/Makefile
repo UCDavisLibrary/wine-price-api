@@ -5,12 +5,12 @@ host:=http://localhost:3000
 #url=http://api.labels.qjhart.org;
 token=qjh
 
-http:=/usr/local/bin/http --ignore-stdin
+http:=/usr/bin/http --ignore-stdin
 
 pdfs:=$(shell ls *.pdf)
-images:=$(patsubst %,image/%,${pdfs})
+images:=$(patsubst %.pdf,images/%.png,${pdfs})
 ocr:=$(patsubst %.pdf,ocr/%.txt,${pdfs})
-thumbs:=$(patsubst %,thumbnails/%,${pdfs})
+thumbs:=$(patsubst %.pdf,thumbnails/%.png,${pdfs})
 
 # These allow for sane processing of files with white space
 #s+ = $(subst \ ,+,$1)
@@ -25,13 +25,13 @@ upload: image-files upload-catalogs upload-pages upload-marks
 
 images:${images}
 
-${images}:image/%.png:%^
+${images}:images/%.png:%.pdf
 	@[[ -d images ]] || mkdir images;
 	convert -density 150 "$<" "$@";\
 
 thumbs: ${thumbs}
 
-${thumbs}:thumbnails/%:%
+${thumbs}:thumbnails/%.png:%.pdf
 	@[[ -d thumbnails ]] || mkdir thumbnail;
 	convert -quality 75 -thumbnail 20% "$<" "$@";\
 
@@ -59,18 +59,19 @@ pdfs.post:${pdfs.post}
 
 ${pdfs.post}:%.pdf.post:%.pdf
 		b=`basename "$<" .pdf`;\
-		t=`echo $b | tr '+' ' '`;\
+		t=`echo $$b | tr '+' ' '`;\
 	  d=$${b##*+}; \
 		${http} --form POST ${host}/catalogs?access_token=${token} \
-		title="$$t" contents@"$<" thumbnail@"thumbnails/$<-0.png" \
+		title="$$t" contents@"$<" thumbnail@"thumbnails/$*-0.png" \
     ocr@"ocr/$*.txt" publisher="Sherry-Lehmann Inc." date="$$d";
 
 upload-pages:
 	@for f in *.pdf; do \
-	  t=`basename "$$f" .pdf | tr '+' ' '`; \
-	  id=`/usr/local/bin/http --form GET ${host}/catalogs?title="$$t" | jq -r .data[].id`; \
+	  b=`basename "$$f" .pdf`; \
+		t=`echo $$b | tr '+' ' '`;\
+	  id=`http --form GET ${host}/catalogs?title="$$t" | jq -r .data[].id`; \
 	  if [[ $$id ]]; then \
-    for p in "images/$$f"-?.png "images/$$f"-??.png "images/$$f"-???.png; do \
+    for p in "images/$$b"-?.png "images/$$b"-??.png "images/$$b"-???.png; do \
       g=$${p##*-}; g=$${g%.png};\
       t=$${p/images/thumbnails};\
 			${http} --form POST ${host}/pages?access_token=${token} \

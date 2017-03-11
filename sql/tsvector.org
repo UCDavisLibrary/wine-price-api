@@ -1,0 +1,101 @@
+This are the starting notes for implementation of a text vector implementation
+for nodal.
+
+Let's say for any text search, we want to identify an attribute, and a list of
+items that get included in that item.  For example q(title,ocr)::tsvector is a
+tsvector type, where we can ask fpr q=foo+bar => ts
+
+In this case we want to be able to query like q=, so.
+
+#+name: catalog vector
+#+header: :engine postgresql :database wine_price_development
+#+BEGIN_SRC sql
+alter table catalogs add q tsvector;
+
+CREATE TRIGGER q_tsvectorupdate BEFORE INSERT OR UPDATE
+ON catalogs FOR EACH ROW EXECUTE PROCEDURE
+tsvector_update_trigger(q, 'pg_catalog.english', title, ocr);
+
+#+END_SRC
+
+#+RESULTS: catalog vector
+| ALTER TABLE    |
+|----------------|
+| CREATE TRIGGER |
+
+
+If I do some stop word statistics, it looks like we need to do some
+modifications to the stop words and the synynoyms.
+
+#+name: search dictionary
+#+header: :engine postgresql :database wine_price_development
+#+BEGIN_SRC sql
+select * from ts_stat('select q from catalogs') order by nentry desc, ndoc desc,word;
+
+-- Specialized stop words
+CREATE TEXT SEARCH DICTIONARY public.wine (
+    TEMPLATE = pg_catalog.simple,
+    STOPWORDS = wine,
+    ACCEPT= false
+);
+
+-- wine.syn in public has synonyms
+CREATE TEXT SEARCH DICTIONARY
+public.wine_syn (
+ TEMPLATE = synonym,
+ SYNONYMS = wine
+);
+
+create text search configuration public.wine ( COPY=pg_catalog.english);
+
+alter text search configuration wine
+ALTER MAPPING FOR asciiword, asciihword, hword_asciipart,word, hword, hword_part
+WITH wine_syn, wine_stop,english_stem;
+
+alter text search configuration wine
+drop mapping for email,url,url_path,sfloat,float;
+
+select * from ts_debug('public.wine','Chateau Rothchild e chatea');
+--
+
+SET default_text_search_config = 'public.wine';
+
+#+END_SRC
+
+#+RESULTS: search dictionary
+| word | ndoc | nentry |
+|------+------+--------|
+
+select
+title,ts_headline('english',ocr,phraseto_tsquery('champagne'),MaxFragments=4)
+from catalogs;
+
+In order to cascade our data into the individual pages:
+
+Then, when we do a q= query, we want it to become a
+q @@ plainto_tsquery(PARM);
+
+Then to move to pages;
+
+alter table pages add ocr text,
+alter table pages add q tsvector;
+
+CREATE TRIGGER q_tsvectorupdate
+BEFORE INSERT OR UPDATE
+ON pages FOR EACH ROW EXECUTE PROCEDURE
+tsvector_update_trigger(q, 'public.wine', ocr);
+
+with c as (
+ select id as catalog_id,a.page-1 as page,a.ocr
+ from catalogs,regexp_split_to_table(ocr,'\x0C') with ordinality a(ocr,page)
+)
+update pages p set ocr=c.ocr from c where p.catalog_id=c.catalog_id and
+ p.page=c.page;
+
+
+-- Test with
+select
+catalog_id,page,
+ts_headline('public.wine',ocr,phraseto_tsquery('james_beard'))
+from pages
+where q @@ phraseto_tsquery('james beard');
