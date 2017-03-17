@@ -1,3 +1,5 @@
+set search_path=catalogs,public,pg_catalog;
+
 create temp table catalog_id_uuid as
 with a as (
  select

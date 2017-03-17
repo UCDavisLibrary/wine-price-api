@@ -1,25 +1,39 @@
 version: '2'
 
 volumes:
-  db:
+  winedb:
 
 services:
-  db:
-    image: postgres:9.6
-    volumes:
-    - db:/var/lib/postgresql/data
+ postgres:
+#  image: wine-postgres
+  build: ./postgres
+  volumes:
+    - winedb:/var/lib/postgresql/data
     - ./:/app
+  environment:
+    POSTGRES_DB: wine_price_dev
+    POSTGRES_USER: postgres
 
-  web:
-    image: node:latest
-    environment:
-    - NODE_ENV=test
-    - MAX_UPLOAD_SIZE=40MB
-    volumes:
-    - ./:/app
-    - ../nodal:/nodal
-    command: bash -c "cd /app && npm install && npm start"
-    links:
-    - db
-    ports:
-      - "3000:3000"
+ postgrest:
+#  image: begriffs/postgrest:latest
+  build: ./postgrest
+  volumes:
+    - ./config/postgrest.conf:/etc/postgrest.conf
+  ports:
+    - "3001:3000"
+  links:
+    - postgres:postgres
+
+ nginx:
+#  image: nginx:alpine
+  image: nginx
+  volumes:
+   - .:/app
+  ports:
+   - "8080:80"
+  environment:
+   - NGINX_HOST=api.catalogs.qjhart.org
+   - NGINX_PORT=80
+  links:
+    - postgrest:postgrest
+  command: /bin/bash -c "envsubst < /app/config/nginx_envsubst.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
