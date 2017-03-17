@@ -90,7 +90,7 @@
 		{
 			"name": "Retrieve a Single Catalog",
 			"request": {
-				"url": "{{url}}/catalogs?catalog_id=eq.bb8b6b2e-a0f0-4e54-ad03-a4a908fdeb07",
+				"url": "{{url}}/catalogs?catalog_id=eq.{{c_id}}",
 				"method": "GET",
 				"header": [
 					{
@@ -130,7 +130,7 @@
 		{
 			"name": "Retrieve Pages",
 			"request": {
-				"url": "{{url}}/pages",
+				"url": "{{url}}/pages?catalog_id=eq.{{c_id}}",
 				"method": "GET",
 				"header": [
 					{
@@ -168,9 +168,89 @@
 			"response": []
 		},
 		{
-			"name": "Full Text Search",
+			"name": "Retrieve One Page",
 			"request": {
-				"url": "{{url}}/pages?q=@@.yellow&select=page_id",
+				"url": "{{url}}/pages?page_id=eq.{{p_id}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "//Accept",
+						"value": "application/vnd.pgrst.object+json",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "terry",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "email",
+							"value": "terry@gmail.com",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "terry",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve One Page/Media Thumbnail",
+			"request": {
+				"url": "{{url}}/media?select=thumbnail_png&media_id=eq.{{m_id}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "//Accept",
+						"value": "application/vnd.pgrst.object+json",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "terry",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "email",
+							"value": "terry@gmail.com",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "terry",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Text Search in one Catalog",
+			"request": {
+				"url": "{{url}}/pages?q=@@.champagne&catalog_id=eq.{{c_id}}&select=page_id",
 				"method": "GET",
 				"header": [
 					{
@@ -204,6 +284,46 @@
 					]
 				},
 				"description": "Search on full text for the individual pages.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve One Page/Media image",
+			"request": {
+				"url": "{{url}}/media?select=contents&media_id=eq.{{m_id}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "//Accept",
+						"value": "application/vnd.pgrst.object+json",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "terry",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "email",
+							"value": "terry@gmail.com",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "terry",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
 			},
 			"response": []
 		}
