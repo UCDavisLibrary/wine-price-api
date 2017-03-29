@@ -22,7 +22,7 @@ select id,catalog_id from a;
 create temp table page_ocr as
 with c as (
 select catalog_id,
-a.page as page,
+a.page-1 as page,
 a.ocr
 from public.catalogs join
 catalog_id_uuid using(id),

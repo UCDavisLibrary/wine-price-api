@@ -5,7 +5,8 @@ host:=http://localhost:3000
 #url=http://api.labels.qjhart.org;
 token=qjh
 
-http:=/usr/bin/http --ignore-stdin
+#http:=/usr/bin/http --ignore-stdin
+http:=/usr/local/bin/http --ignore-stdin
 
 pdfs:=$(shell ls *.pdf)
 images:=$(patsubst %.pdf,images/%.png,${pdfs})
@@ -32,7 +33,7 @@ ${images}:images/%.png:%.pdf
 thumbs: ${thumbs}
 
 ${thumbs}:thumbnails/%.png:%.pdf
-	@[[ -d thumbnails ]] || mkdir thumbnail;
+	@[[ -d thumbnails ]] || mkdir thumbnails;
 	convert -quality 75 -thumbnail 20% "$<" "$@";\
 
 ocr: ${ocr}
@@ -45,11 +46,11 @@ ocr.put:=$(patsubst %,%.put,${ocr})
 ocr.put:${ocr.put}
 
 ${ocr.put}:%.put:%
-	t=`basename "$<" .txt | tr '+' ' '`; \
-	id=`/usr/local/bin/http --form GET ${host}/catalogs?title="$$t" | jq -r .data[].id`; \
+	t=`basename "$<" .txt | tr '+' ' ' | sed -e s/^[0-9]*\-//`; \
+	id=`${http} --form GET ${host}/catalogs?title="$$t" | jq -r .data[].id`; \
 	if [[ $$id ]]; then \
 		${http} --form PUT ${host}/catalogs/$$id?access_token=${token} ocr@"$<"; \
-    touch $@;\
+    touch "$@";\
 	  else \
 	    echo $$t NO;\
 	  fi ;\

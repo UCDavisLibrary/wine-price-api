@@ -26,7 +26,7 @@ CREATE TABLE catalogs (
 
 CREATE FUNCTION q(catalogs) RETURNS tsvector AS $$
   SELECT q from catalogs.media where media_id=$1.media_id;
-$$ LANGUAGE SQL STABLE;
+$$ LANGUAGE SQL IMMUTABLE;
 
 -- (optional) add an index to speed up anticipated query
 CREATE INDEX  catalogs_q_idx ON catalogs
