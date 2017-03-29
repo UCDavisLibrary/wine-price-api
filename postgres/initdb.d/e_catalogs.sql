@@ -21,6 +21,7 @@ CREATE TABLE catalogs (
     title text,
     publisher text,
     year bigint,
+    editable boolean,
     media_id uuid references media(media_id),
     created_at timestamp without time zone default now(),
     updated_at timestamp without time zone default now()
@@ -39,6 +40,7 @@ CREATE TABLE pages (
     catalog_id uuid references catalogs,
     page bigint,
     media_id uuid references media(media_id),
+    editable boolean,
     created_at timestamp without time zone default now()
 );
 
@@ -50,28 +52,31 @@ $$ LANGUAGE SQL IMMUTABLE;
 CREATE INDEX  pages_q_idx ON pages
   USING GIN (q(pages));
 
--- CREATE TABLE marks (
---     id bigint NOT NULL,
---     user_id bigint,
---     page_id bigint,
---     r double precision,
---     c double precision,
---     type text,
---     color text,
---     country text,
---     varietal text,
---     otherdesignation text,
---     brandname text,
---     winery_name text,
---     vintage_date bigint,
---     region text,
---     bottlesize text,
---     perprice double precision,
---     caseprice double precision,
---     note text,
---     created_at timestamp without time zone,
---     updated_at timestamp without time zone
--- );
+CREATE TABLE mark_type (
+ type text primary key
+);
+
+
+
+ CREATE TABLE marks (
+    mark_id uuid primary key,
+    user_id uuid,
+    page_id uuid,
+    r double precision,
+    c double precision,
+    type references mark_type (type);
+    wineType,
+    color text,
+    country text,
+    producer text,
+    section text,
+    vintage integer,
+    bottletype text,
+    perPrice double precision,
+    casePrice double precision,
+    created timestamp without time zone,
+    updated timestamp without time zone
+);
 
 -- CREATE TABLE wine_prices (
 --     id bigint NOT NULL,
