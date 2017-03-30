@@ -1,6 +1,7 @@
 # Node Stuff
 node_modules
 .env
+firebase-sync/config.json
 
 # Emacs stuff
 *~

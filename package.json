@@ -10,6 +10,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.0",
     "canvas": "^1.6.2",
+    "firebase-admin": "^4.1.4",
     "lodash": "^4.17.4",
     "nodal": "qjhart/nodal",
     "pdfjs-dist": "^1.6.463"
