@@ -15,12 +15,9 @@ services:
     POSTGRES_USER: postgres
 
  postgrest:
-#  image: begriffs/postgrest:latest
   build: ./postgrest
   volumes:
     - ./config/postgrest.conf:/etc/postgrest.conf
-  ports:
-    - "3001:3000"
   links:
     - postgres:postgres
 
@@ -30,7 +27,7 @@ services:
   volumes:
    - .:/app
   ports:
-   - "8080:80"
+   - "8081:80"
   environment:
    - NGINX_HOST=api.catalogs.qjhart.org
    - NGINX_PORT=80
