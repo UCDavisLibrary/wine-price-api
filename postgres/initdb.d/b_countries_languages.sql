@@ -1,4 +1,3 @@
-
 CREATE TABLE countries (
     id bigint NOT NULL,
     country text,

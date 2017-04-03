@@ -55,27 +55,62 @@ CREATE INDEX  pages_q_idx ON pages
 CREATE TABLE mark_type (
  type text primary key
 );
+insert into mark_type
+values ('wine'),('spirit');
 
+CREATE TABLE wine_type (
+ wineType text primary key
+);
+insert into wine_type
+values ('Still'),('Sparkling'),('Fortified');
 
+CREATE TABLE wine_color (
+ color text primary key
+);
+insert into wine_color
+values ('Red'),('White'),('Róse');
 
- CREATE TABLE marks (
-    mark_id uuid primary key,
-    user_id uuid,
-    page_id uuid,
-    r double precision,
-    c double precision,
-    type references mark_type (type);
-    wineType,
-    color text,
-    country text,
-    producer text,
-    section text,
-    vintage integer,
-    bottletype text,
-    perPrice double precision,
-    casePrice double precision,
-    created timestamp without time zone,
-    updated timestamp without time zone
+CREATE TABLE pending_mark_index (
+   mark_id uuid primary key,
+   user_id uuid,
+   page_id uuid,
+   xy integer[2],
+   type text references mark_type (type),
+   wineType text references wine_type(wineType),
+   color text references wine_color(color),
+   score float,
+   country text,
+   producer text,
+   section text,
+   vintage integer,
+   bottletype text,
+   perPrice double precision,
+   casePrice double precision,
+   created timestamp without time zone,
+   updated timestamp without time zone
+);
+create index on pending_mark_index(user_id);
+create index on pending_mark_index(page_id);
+create index on pending_mark_index(score);
+create index on pending_mark_index(perPrice);
+
+CREATE TABLE marks (
+   mark_id uuid primary key,
+   user_id uuid,
+   page_id uuid,
+   xy integer[2],
+   type text references mark_type (type),
+   wineType text references wine_type(wineType),
+   color text references wine_color(color),
+   country text,
+   producer text,
+   section text,
+   vintage integer,
+   bottletype text,
+   perPrice double precision,
+   casePrice double precision,
+   created timestamp without time zone,
+   updated timestamp without time zone
 );
 
 -- CREATE TABLE wine_prices (
