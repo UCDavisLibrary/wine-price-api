@@ -30,7 +30,7 @@ services:
   volumes:
    - .:/app
   ports:
-   - "8080:80"
+   - "8081:80"
   environment:
    - NGINX_HOST=api.catalogs.qjhart.org
    - NGINX_PORT=80

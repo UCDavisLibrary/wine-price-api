@@ -1,0 +1,11 @@
+{
+  "name": "firebase-sync",
+  "version": "0.0.1",
+  "description": "Sync firebase pending marks to postgres",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Justin Merz <jrmerz@gmail.com>",
+  "license": "ISC"
+}

@@ -42,9 +42,11 @@ ref.on('child_removed', (oldChildSnapshot) => {
 });
 
 function onUpdate(id, value) {
+  console.log(id, value);
   // Add to PG
 }
 
-function onRemove(id, value) {
+function onRemove(id) {
+  console.log(id);
   // Remove from PG
 }
