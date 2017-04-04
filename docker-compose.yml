@@ -15,12 +15,9 @@ services:
     POSTGRES_USER: postgres
 
  postgrest:
-#  image: begriffs/postgrest:latest
   build: ./postgrest
   volumes:
     - ./config/postgrest.conf:/etc/postgrest.conf
-  ports:
-    - "3001:3000"
   links:
     - postgres:postgres
 

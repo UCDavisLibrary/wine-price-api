@@ -6,3 +6,6 @@ firebase-sync/config.json
 # Emacs stuff
 *~
 \#*\#
+
+# Ignore postgres saves / restores.
+Fc/*.Fc
