@@ -1,12 +1,17 @@
-// var pg = require('pg');
+var pgExec = require('./pg');
 var firebase = require('firebase-admin');
+
+console.log('Starting Firebase-PG Pending Mark Sync');
 
 /**
  * Connect to firebase
  */
+
+var secret = require('./config');
+
 var config = {
-  databaseURL: 'https://ucd-library-apps.firebaseio.com',
-  credential: firebase.credential.cert(require('./config'))
+  databaseURL: 'https://price-the-vintage.firebaseio.com',
+  credential: firebase.credential.cert(secret)
 };
 firebase.initializeApp(config);
 
@@ -14,15 +19,15 @@ firebase.initializeApp(config);
  * Always redo last 5 days of marks on start
  */
 var MS_PER_DAY = 86400 * 1000;
-var RESTART_BUFFER = 5; // days
+var RESTART_BUFFER = 30; // days
 var time = Date.now() - (RESTART_BUFFER * MS_PER_DAY);
-
 
 var ref = firebase
   .database()
-  .ref('price-the-vintage/pending-marks')
+  .ref('pending-marks')
   .orderByChild('updated')
   .startAt(time);
+
 
 ref.on('child_added', (childSnapshot, prevChildKey) => {
   var value = childSnapshot.val();
@@ -41,12 +46,45 @@ ref.on('child_removed', (oldChildSnapshot) => {
   onRemove(id);
 });
 
-function onUpdate(id, value) {
-  console.log(id, value);
-  // Add to PG
+function onUpdate(id, val) {
+  var insert = 'INSERT into pending_mark_index '+
+    '( '+
+      'mark_id, '    + // 1
+      'page_id, '    + // 3
+      'score, '      + // 8
+      'created, '    + // 16
+      'updated '     + // 17
+    ') VALUES ( '+
+      '$1::uuid, '      + // mark_id
+      '$2::uuid, '      + // page_id
+      '$3::int, '       + // score
+      'to_timestamp($4::double precision), '      + // created
+      'to_timestamp($5::double precision) '       + // updated
+    ') ON CONFLICT(mark_id) DO UPDATE SET '+
+      'page_id=excluded.page_id, '       +
+      'score=excluded.score, '           +
+      'created=excluded.created, '       + 
+      'updated=excluded.updated ';
+  
+
+  var params = [
+    id,                // mark_id
+    val.pageId, // page_id
+    val.score || 0,    // score
+    val.created / 1000,       // created
+    val.updated / 1000        // updated
+  ];
+
+  pgExec(insert, params, (err, result) => {
+    if( err ) console.error(`Error updating mark: ${id}`);
+    else console.log(`Mark added: ${id}`);
+  });
 }
 
 function onRemove(id) {
-  console.log(id);
-  // Remove from PG
+  var remove = `DELETE FROM pending_mark_index WHERE mark_id = $1::text`;
+  pgExec(remove, [id], (err, result) => {
+    if( err ) console.error(`Error removing mark ${id}`);
+    else console.log(`Mark removed: ${id}`);
+  });
 }
