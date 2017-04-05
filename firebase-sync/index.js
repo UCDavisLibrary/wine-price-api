@@ -82,7 +82,7 @@ function onUpdate(id, val) {
 }
 
 function onRemove(id) {
-  var remove = `DELETE FROM pending_mark_index WHERE mark_id = $1::text`;
+  var remove = `DELETE FROM pending_mark_index WHERE mark_id = $1::uuid`;
   pgExec(remove, [id], (err, result) => {
     if( err ) console.error(`Error removing mark ${id}`);
     else console.log(`Mark removed: ${id}`);
