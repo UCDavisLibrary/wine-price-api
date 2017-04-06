@@ -208,7 +208,7 @@
 			"response": []
 		},
 		{
-			"name": "Retrieve One Page/Media Thumbnail",
+			"name": "Get Pages with Marks on them",
 			"request": {
 				"url": "{{url}}/media?select=thumbnail_png&media_id=eq.{{m_id}}",
 				"method": "GET",
@@ -324,6 +324,77 @@
 					]
 				},
 				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Write a Mark",
+			"request": {
+				"url": "{{url}}/marks",
+				"method": "POST",
+				"header": [
+					{
+						"key": "//Accept",
+						"value": "application/vnd.pgrst.object+json",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InFqaGFydEB1Y2RhdmlzLmVkdSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJyb2xlIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpc3MiOiJodHRwczovL3VjZC1saWJyYXJ5LWFwcHMuYXV0aDAuY29tLyIsInN1YiI6Imdvb2dsZS1vYXV0aDJ8MTAxNzE1Njg2OTc0Njc1ODk0NTgwIiwiYXVkIjoieEVxZDJ0T2gzWW8wR05UbEdmRlJ4VkRZZ052Q09XbTgiLCJleHAiOjE0OTE1MjM0OTMsImlhdCI6MTQ5MTQ4NzQ5M30.6FthgORWc5gVKw9iKczYgMxP4hUxXFo0k2QVrZ0tkKs",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n  \"mark_id\":\"d9dc8dc7-25fe-4573-b177-4b070a93314c\",\n  \"user_id\":null,\n  \"page_id\":\"53d26bb7-8b10-47d6-89da-34883c0cc324\",\n  \"xy\":\"{34,113}\",\n  \"type\":\"wine\",\n  \"winetype\":\"Still\",\n  \"color\":\"Red\",\n  \"country\":\"USA\",\n  \"producer\":\"Foo\",\n  \"section\":\"Foo Wines\",\n  \"vintage\":1956,\n  \"bottletype\":\"Standard\",\n  \"perprice\":3.30,\n  \"caseprice\":33.00,\n  \"created\":\"2017-03-30T23:13:10.757999\",\n  \"updated\":\"2017-03-30T23:13:10.757999\"\n\n}"
+				},
+				"description": "Write a Mark to the catalog.  This POSTs a mark update to the postgresql catalog."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pages with Marks on them",
+			"request": {
+				"url": "{{url}}/pages?select=page_id,page,marks&marks=gt.0",
+				"method": "GET",
+				"header": [
+					{
+						"key": "//Accept",
+						"value": "application/vnd.pgrst.object+json",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "terry",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "email",
+							"value": "terry@gmail.com",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "terry",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": "This example shows how you can get the number of marks on a page, or find all the pages that have marks on them.  marks is a function, and as such, it does NOT appear in the default output.  It must be selected explicitly"
 			},
 			"response": []
 		}

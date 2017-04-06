@@ -48,6 +48,11 @@ CREATE FUNCTION q(pages) RETURNS tsvector AS $$
   SELECT q from catalogs.media where media_id=$1.media_id;
 $$ LANGUAGE SQL IMMUTABLE;
 
+CREATE FUNCTION marks(pages) RETURNS bigint AS $$
+  SELECT count(*) from catalogs.marks where page_id=$1.page_id;
+$$ LANGUAGE SQL IMMUTABLE;
+
+
 -- (optional) add an index to speed up anticipated query
 CREATE INDEX  pages_q_idx ON pages
   USING GIN (q(pages));
@@ -101,6 +106,8 @@ CREATE TABLE marks (
    created timestamp without time zone,
    updated timestamp without time zone
 );
+create index on marks(user_id);
+
 
 -- CREATE TABLE wine_prices (
 --     id bigint NOT NULL,
