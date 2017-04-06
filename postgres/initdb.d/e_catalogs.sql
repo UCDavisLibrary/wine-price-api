@@ -72,27 +72,15 @@ values ('Red'),('White'),('Róse');
 
 CREATE TABLE pending_mark_index (
    mark_id uuid primary key,
-   user_id uuid,
    page_id uuid,
-   xy integer[2],
-   type text references mark_type (type),
-   wineType text references wine_type(wineType),
-   color text references wine_color(color),
    score float,
-   country text,
-   producer text,
-   section text,
-   vintage integer,
-   bottletype text,
-   perPrice double precision,
-   casePrice double precision,
    created timestamp without time zone,
    updated timestamp without time zone
 );
-create index on pending_mark_index(user_id);
 create index on pending_mark_index(page_id);
 create index on pending_mark_index(score);
-create index on pending_mark_index(perPrice);
+create index on pending_mark_index(created);
+create index on pending_mark_index(updated);
 
 CREATE TABLE marks (
    mark_id uuid primary key,
