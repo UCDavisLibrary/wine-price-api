@@ -84,7 +84,7 @@ create index on pending_mark_index(updated);
 
 CREATE TABLE marks (
    mark_id uuid primary key,
-   user_id uuid,
+   user_id text,
    page_id uuid,
    xy integer[2],
    type text references mark_type (type),
@@ -93,6 +93,7 @@ CREATE TABLE marks (
    country text,
    producer text,
    section text,
+   anonymous boolean,
    vintage integer,
    bottletype text,
    perPrice double precision,
