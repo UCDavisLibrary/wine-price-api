@@ -18,7 +18,7 @@ grant usage on schema catalogs to anon;
 GRANT SELECT ON ALL TABLES IN SCHEMA catalogs TO anon;
 GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA catalogs TO anon;
 
--- Admin can't delete pages, etc.
+-- markup can't delete pages, etc.
 GRANT INSERT on catalogs.marks to markup;
 GRANT UPDATE on catalogs.marks to markup;
 GRANT DELETE on catalogs.marks to markup;
@@ -26,3 +26,7 @@ GRANT DELETE on catalogs.marks to markup;
 GRANT INSERT on catalogs.pending_mark_index to markup;
 GRANT UPDATE on catalogs.pending_mark_index to markup;
 GRANT DELETE on catalogs.pending_mark_index to markup;
+
+GRANT ALL on catalogs.media to admin;
+GRANT ALL on catalogs.pages to admin;
+GRANT ALL on catalogs.catalogs to admin;
