@@ -26,3 +26,6 @@ GRANT DELETE on catalogs.marks to markup;
 GRANT INSERT on catalogs.pending_mark_index to markup;
 GRANT UPDATE on catalogs.pending_mark_index to markup;
 GRANT DELETE on catalogs.pending_mark_index to markup;
+
+GRANT UPDATE (editable,completed) on catalogs.pages to markup;
+GRANT UPDATE (editable,completed) on catalogs.catalogs to markup;

@@ -21,11 +21,13 @@ CREATE TABLE catalogs (
     title text,
     publisher text,
     year bigint,
-    editable boolean,
+    editable boolean default true,
+    completed boolean default false,
     media_id uuid references media(media_id),
     created_at timestamp without time zone default now(),
     updated_at timestamp without time zone default now()
 );
+
 
 CREATE FUNCTION q(catalogs) RETURNS tsvector AS $$
   SELECT q from catalogs.media where media_id=$1.media_id;
@@ -40,13 +42,48 @@ CREATE TABLE pages (
     catalog_id uuid references catalogs,
     page bigint,
     media_id uuid references media(media_id),
-    editable boolean,
+    editable boolean default true,
+    completed boolean default false,
     created_at timestamp without time zone default now()
 );
 
 CREATE FUNCTION q(pages) RETURNS tsvector AS $$
   SELECT q from catalogs.media where media_id=$1.media_id;
 $$ LANGUAGE SQL IMMUTABLE;
+
+create type catalog_page_count as (
+total bigint,
+finished bigint,
+not_finished bigint);
+
+CREATE FUNCTION page_count(catalogs) RETURNS catalog_page_count AS $$
+   SELECT (count(*),
+   sum(case when (p.editable is false or p.completed is true) then 1 else 0 end),
+   sum(case when (p.editable is true and p.completed is false) then 1 else 0 end)
+   )::catalog_page_count from pages p
+   where catalog_id=$1.catalog_id
+$$ LANGUAGE SQL IMMUTABLE;
+
+
+CREATE FUNCTION pages(catalogs) RETURNS bigint AS $$
+  SELECT count(*) from catalogs.pages p
+  where catalog_id=$1.catalog_id
+$$ LANGUAGE SQL IMMUTABLE;
+
+CREATE FUNCTION pages_finished(catalogs) RETURNS bigint AS $$
+  SELECT count(*) from catalogs.pages p
+  where
+  catalog_id=$1.catalog_id and
+  p.editable is false or p.completed is true
+$$ LANGUAGE SQL IMMUTABLE;
+
+CREATE FUNCTION pages_not_finished(catalogs) RETURNS bigint AS $$
+   SELECT count(*)
+   from pages p
+   where catalog_id=$1.catalog_id and
+   p.editable is true and p.completed is false;
+$$ LANGUAGE SQL IMMUTABLE;
+
 
 -- (optional) add an index to speed up anticipated query
 CREATE INDEX  pages_q_idx ON pages
@@ -84,15 +121,17 @@ create index on pending_mark_index(updated);
 
 CREATE TABLE marks (
    mark_id uuid primary key,
-   user_id uuid,
+   user_id text,
    page_id uuid,
    xy integer[2],
    type text references mark_type (type),
    wineType text references wine_type(wineType),
    color text references wine_color(color),
    country text,
+   name text,
    producer text,
    section text,
+   anonymous boolean,
    vintage integer,
    bottletype text,
    perPrice double precision,
@@ -100,6 +139,13 @@ CREATE TABLE marks (
    created timestamp without time zone,
    updated timestamp without time zone
 );
+create index on marks(user_id);
+
+CREATE FUNCTION marks(pages) RETURNS bigint AS $$
+  SELECT count(*) from catalogs.marks where page_id=$1.page_id;
+$$ LANGUAGE SQL IMMUTABLE;
+
+
 
 -- CREATE TABLE wine_prices (
 --     id bigint NOT NULL,
