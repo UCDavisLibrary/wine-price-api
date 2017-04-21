@@ -10,30 +10,24 @@ services:
       - winedb:/var/lib/postgresql/data
       - ./:/app
     environment:
-      POSTGRES_DB: wine_price_dev
+      POSTGRES_DB: wine_price
       POSTGRES_USER: postgres
 
-  postgrest:
-    build: ./postgrest
-    volumes:
-      - ./config/postgrest.conf:/etc/postgrest.conf
+  pgt:
+    build: ./pgt
+#    volumes:
+#      - ./config/postgrest.conf:/etc/postgrest.conf
+#      - ./config/nginx_envsubst.conf:/nginx_envsubst.conf
+    ports:
+      - "8080:80"
+    environment:
+      - PGT_JWT=bSnzCspjUnBhizW0qw00AbdZFU0Dlh9W6YxvIdAh_AQDdouZsity8lwqyVTYruDx
+      - PGT_HOST=wine-api.library.ucdavis.edu
     links:
       - postgres:postgres
     depends_on:
       - postgres
-
-  nginx:
-    image: nginx
-    volumes:
-      - .:/app
-    ports:
-      - "8081:80"
-    environment:
-      - NGINX_HOST=api.catalogs.qjhart.org
-      - NGINX_PORT=80
-    links:
-      - postgrest:postgrest
-    command: /bin/bash -c "envsubst < /app/config/nginx_envsubst.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+#    command: ls
 
   sync:
     build: ./firebase-sync

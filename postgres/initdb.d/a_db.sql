@@ -8,7 +8,7 @@ COMMENT ON EXTENSION pgjwt IS 'JSON Web Token API for Postgresql';
 --DROP SCHEMA catalogs cascade;
 CREATE SCHEMA catalogs;
 SET search_path = catalogs,public,pg_catalog;
-alter database wine_price_dev set search_path to catalogs,public,pg_catalog;
+alter database wine_price set search_path to catalogs,public,pg_catalog;
 
 CREATE TABLE countries (
     id bigint NOT NULL,
@@ -16,7 +16,6 @@ CREATE TABLE countries (
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
-
 
 CREATE TABLE languages (
     id bigint NOT NULL,

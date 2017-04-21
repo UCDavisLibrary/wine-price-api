@@ -2,8 +2,8 @@ const pg = require('pg');
 
 var config = {
   user: 'postgres', //env var: PGUSER
-  database: 'wine_price_dev', //env var: PGDATABASE
-  host: 'postgres', 
+  database: 'wine_price', //env var: PGDATABASE
+  host: 'postgres',
   port: 5432, //env var: PGPORT
   max: 10, // max number of clients in the pool
   idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed

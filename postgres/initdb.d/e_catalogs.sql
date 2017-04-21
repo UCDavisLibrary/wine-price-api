@@ -28,39 +28,6 @@ CREATE TABLE catalogs (
     updated_at timestamp without time zone default now()
 );
 
-CREATE FUNCTION pages(catalogs) RETURNS bigint AS $$
-  SELECT count(*) from catalogs.pages p
-  where catalog_id=$1.catalog_id
-$$ LANGUAGE SQL IMMUTABLE;
-
-CREATE FUNCTION pages_finished(catalogs) RETURNS bigint AS $$
-  SELECT count(*) from catalogs.pages p
-  where
-  catalog_id=$1.catalog_id and
-  p.editable is false or p.completed is true
-$$ LANGUAGE SQL IMMUTABLE;
-
-CREATE FUNCTION pages_not_finished(catalogs) RETURNS bigint AS $$
-   SELECT count(*)
-   from pages p
-   where catalog_id=$1.catalog_id and
-   p.editable is true and p.completed is false;
-$$ LANGUAGE SQL IMMUTABLE;
-
-create type catalog_page_count as (
-total bigint,
-finished bigint,
-not_finished bigint);
-
-CREATE FUNCTION page_count(catalogs) RETURNS catalog_page_count AS $$
-   SELECT (count(*),
-   sum(case when (p.editable is false or p.completed is true) then 1 else 0 end),
-   sum(case when (p.editable is true and p.completed is false) then 1 else 0 end)
-   )::catalog_page_count from pages p
-   where catalog_id=$1.catalog_id
-$$ LANGUAGE SQL IMMUTABLE;
-
-
 
 CREATE FUNCTION q(catalogs) RETURNS tsvector AS $$
   SELECT q from catalogs.media where media_id=$1.media_id;
@@ -82,6 +49,39 @@ CREATE TABLE pages (
 
 CREATE FUNCTION q(pages) RETURNS tsvector AS $$
   SELECT q from catalogs.media where media_id=$1.media_id;
+$$ LANGUAGE SQL IMMUTABLE;
+
+create type catalog_page_count as (
+total bigint,
+finished bigint,
+not_finished bigint);
+
+CREATE FUNCTION page_count(catalogs) RETURNS catalog_page_count AS $$
+   SELECT (count(*),
+   sum(case when (p.editable is false or p.completed is true) then 1 else 0 end),
+   sum(case when (p.editable is true and p.completed is false) then 1 else 0 end)
+   )::catalog_page_count from pages p
+   where catalog_id=$1.catalog_id
+$$ LANGUAGE SQL IMMUTABLE;
+
+
+CREATE FUNCTION pages(catalogs) RETURNS bigint AS $$
+  SELECT count(*) from catalogs.pages p
+  where catalog_id=$1.catalog_id
+$$ LANGUAGE SQL IMMUTABLE;
+
+CREATE FUNCTION pages_finished(catalogs) RETURNS bigint AS $$
+  SELECT count(*) from catalogs.pages p
+  where
+  catalog_id=$1.catalog_id and
+  p.editable is false or p.completed is true
+$$ LANGUAGE SQL IMMUTABLE;
+
+CREATE FUNCTION pages_not_finished(catalogs) RETURNS bigint AS $$
+   SELECT count(*)
+   from pages p
+   where catalog_id=$1.catalog_id and
+   p.editable is true and p.completed is false;
 $$ LANGUAGE SQL IMMUTABLE;
 
 
