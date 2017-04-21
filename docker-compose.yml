@@ -15,19 +15,15 @@ services:
 
   pgt:
     build: ./pgt
-#    volumes:
-#      - ./config/postgrest.conf:/etc/postgrest.conf
-#      - ./config/nginx_envsubst.conf:/nginx_envsubst.conf
     ports:
       - "8080:80"
     environment:
-      - PGT_JWT=***REMOVED***
+      - PGT_JWT=SECRET_HERE
       - PGT_HOST=wine-api.library.ucdavis.edu
     links:
       - postgres:postgres
     depends_on:
       - postgres
-#    command: ls
 
   sync:
     build: ./firebase-sync
