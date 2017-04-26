@@ -7,13 +7,24 @@ console.log('Starting Firebase-PG Pending Mark Sync');
  * Connect to firebase
  */
 
-var secret = require('./config');
+var env = process.env.PRICE_THE_VINTAGE_ENV || 'dev';
+var secret, dburl;
+if( env.trim().toLowerCase() === 'prod' ) {
+  secret = require('./config');
+  dburl = 'https://price-the-vintage.firebaseio.com';
+} else {
+  secret = require('./config-dev');
+  dburl = 'https://price-the-vintage-dev.firebaseio.com';
+}
 
 var config = {
-  databaseURL: 'https://price-the-vintage.firebaseio.com',
+  databaseURL: dburl,
   credential: firebase.credential.cert(secret)
 };
 firebase.initializeApp(config);
+
+console.log(`Using PRICE_THE_VINTAGE_ENV: ${env}`);
+console.log(`Connecting to: ${dburl}`);
 
 /**
  * Always redo last 5 days of marks on start

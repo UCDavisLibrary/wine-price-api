@@ -5,21 +5,18 @@ volumes:
 
 services:
   postgres:
-    build: ./postgres
+    build: ../postgres
     volumes:
       - winedb:/var/lib/postgresql/data
-      - ./:/app
+      - ../:/app
     environment:
       POSTGRES_DB: wine_price
       POSTGRES_USER: postgres
 
   pgt:
-    build: ./pgt
-#    volumes:
-#      - ./config/postgrest.conf:/etc/postgrest.conf
-#      - ./config/nginx_envsubst.conf:/nginx_envsubst.conf
+    build: ../pgt
     ports:
-      - "8080:80"
+      - "8081:80"
     environment:
       - PGT_JWT=***REMOVED***
       - PGT_HOST=wine-api.library.ucdavis.edu
@@ -27,11 +24,10 @@ services:
       - postgres:postgres
     depends_on:
       - postgres
-#    command: ls
 
   sync:
-    build: ./firebase-sync
+    build: ../firebase-sync
     depends_on:
       - postgres
     environment:
-      PRICE_THE_VINTAGE_ENV: prod
+      PRICE_THE_VINTAGE_ENV: dev

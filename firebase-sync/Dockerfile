@@ -4,6 +4,7 @@ RUN mkdir firebase-sync
 
 COPY index.js /firebase-sync
 COPY config.json /firebase-sync
+COPY config-dev.json /firebase-sync
 COPY pg.js /firebase-sync
 COPY package.json /firebase-sync
 
