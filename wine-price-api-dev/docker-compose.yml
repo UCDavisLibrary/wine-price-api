@@ -18,8 +18,9 @@ services:
     ports:
       - "8081:80"
     environment:
-      - PGT_JWT=***REMOVED***
-      - PGT_HOST=wine-api.library.ucdavis.edu
+      # Auth0: Price the Vintage - Dev
+      - PGT_JWT=${PGT_JWT}
+      - PGT_HOST=dev-wine-api.library.ucdavis.edu
     links:
       - postgres:postgres
     depends_on:

@@ -4,6 +4,7 @@ node_modules
 firebase-sync/config.json
 firebase-sync/config-dev.json
 firebase-sync/node_modules
+wine-price-api-dev/.env
 
 # Emacs stuff
 *~
