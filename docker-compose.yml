@@ -16,9 +16,9 @@ services:
   pgt:
     build: ./pgt
     ports:
-      - "8080:80"
+      - "${PORT}:80"
     environment:
-      - PGT_JWT=SECRET_HERE
+      - PGT_JWT=${PGT_JWT}
       - PGT_HOST=wine-api.library.ucdavis.edu
     links:
       - postgres:postgres
