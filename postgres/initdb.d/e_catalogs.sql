@@ -75,14 +75,14 @@ CREATE FUNCTION pages_finished(catalogs) RETURNS bigint AS $$
   SELECT count(*) from catalogs.pages p
   where
   catalog_id=$1.catalog_id and
-  p.editable is false or p.completed is true
+  (p.editable is false or p.completed is true)
 $$ LANGUAGE SQL IMMUTABLE;
 
 CREATE FUNCTION pages_not_finished(catalogs) RETURNS bigint AS $$
    SELECT count(*)
    from pages p
    where catalog_id=$1.catalog_id and
-   p.editable is true and p.completed is false;
+   (p.editable is true and p.completed is false);
 $$ LANGUAGE SQL IMMUTABLE;
 
 
