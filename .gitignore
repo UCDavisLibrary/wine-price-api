@@ -12,3 +12,6 @@ wine-price-api-dev/.env
 
 # Ignore postgres saves / restores.
 Fc/*.Fc
+
+# Examples
+example/*.pdf
