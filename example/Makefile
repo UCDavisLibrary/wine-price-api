@@ -1,87 +1,100 @@
 #! /usr/bin/make -f
 SHELL:=/bin/bash
 
-host:=http://localhost:3000
+host:=http://localhost:8888
 #url=http://api.labels.qjhart.org;
 token=qjh
 
 #http:=/usr/bin/http --ignore-stdin
 http:=/usr/local/bin/http --ignore-stdin
 
-pdfs:=$(shell ls *.pdf)
-images:=$(patsubst %.pdf,images/%.png,${pdfs})
-ocr:=$(patsubst %.pdf,ocr/%.txt,${pdfs})
-thumbs:=$(patsubst %.pdf,thumbnails/%.png,${pdfs})
+#pdfs:=$(shell ls *.pdf)
+redo_pdfs:=\
+6-Plain+Facts+Liquor+and+Wine+Prices.New+York+State.pdf \
+16-The+Wines+of+Nicolas+are+here.pdf \
+27-Seasons+Greetings+1971-1972.pdf \
+32-Report.+The+Great+1969+Red+Burgundies.pdf \
+40-Report.+Wines+of+Europe+1970.pdf \
+43-Report.+Sale+Items+Most+in+Demand.pdf \
+55-Spring+Summer+Sale+1976.pdf \
+148-Fortnum+&+Mason+1957.pdf \
+167-Fortnum+&+Mason+1958.pdf
 
-# These allow for sane processing of files with white space
-#s+ = $(subst \ ,+,$1)
-#+s = $(subst +,\ ,$1)
+new_pdfs:=\
+18-Report.+Present+Wine+Situation+1962.pdf \
+24-Seasons+Greetings+1973.pdf \
+28-Seasons+Greetings+1971+.+1972.pdf \
+41-Letter.+Domaine+De+La+Romanee+Conti.pdf \
+52-Vintage+of+Values+1970.pdf \
+60-Seasons+Greetings+1967.pdf \
+73-Letter+Bellows+&+Company+1947.pdf \
+81-Yuletide+Vintage+of+Values+1968-1969.pdf \
+122-Charette+of+VIns+du+Pays+1949.pdf \
+123-Letter+1952.pdf \
+124-Letter+Hotel+George+Paris+1948.pdf \
+137-Letter+1957.pdf \
+156-Memo+1956.pdf \
+163-Seasons+Greetings+1956.pdf \
+191-Seasons+Greetings+1967.pdf 202-Newsletter.+Price+list+1967.pdf 212-News+April+1969.pdf
+
+pdfs:=${redo_pdfs} ${new_pdfs}
+
+images:=$(patsubst %.pdf,images/%-0.png,${pdfs})
+ocr:=$(patsubst %.pdf,ocr/%.txt,${pdfs})
+thumbs:=$(patsubst %.pdf,thumbnails/%-0.png,${pdfs})
+csvs:=$(patsubst %.pdf,csv/%.csv,${pdfs})
+foos:=$(patsubst %.pdf,%.foo,${pdfs})
 
 INFO:
 	@echo "This uploads example data. Try make upload"
-	@echo pdfs: '${pdfs}'
-	@echo images: ${images+}
+	@echo pdfs: "${pdfs}"
+	@echo images: "${images}"
 
 upload: image-files upload-catalogs upload-pages upload-marks
 
 images:${images}
 
-${images}:images/%.png:%.pdf
+${images}:images/%-0.png:%.pdf
 	@[[ -d images ]] || mkdir images;
-	convert -density 150 "$<" "$@";\
+	convert -density 150 "$<" "images/$*.png";\
 
 thumbs: ${thumbs}
 
-${thumbs}:thumbnails/%.png:%.pdf
+${thumbs}:thumbnails/%-0.png:%.pdf
 	@[[ -d thumbnails ]] || mkdir thumbnails;
-	convert -quality 75 -thumbnail 20% "$<" "$@";\
+	convert -quality 75 -thumbnail 20% "$<" "thumbnails/$*.png";\
 
 ocr: ${ocr}
 ${ocr}:ocr/%.txt:%.pdf
 	@[[ -d ocr ]] || mkdir ocr;
-	pdftotext -layout -fixed 80 $< $@
+	pdftotext -layout -fixed 80 "$<" "$@"
 
 ocr.put:=$(patsubst %,%.put,${ocr})
 
-ocr.put:${ocr.put}
 
-${ocr.put}:%.put:%
-	t=`basename "$<" .txt | tr '+' ' ' | sed -e s/^[0-9]*\-//`; \
-	id=`${http} --form GET ${host}/catalogs?title="$$t" | jq -r .data[].id`; \
-	if [[ $$id ]]; then \
-		${http} --form PUT ${host}/catalogs/$$id?access_token=${token} ocr@"$<"; \
-    touch "$@";\
-	  else \
-	    echo $$t NO;\
-	  fi ;\
+# These allow for sane processing of files with white space
+#s+ = $(subst \ ,+,$1)
+#+s = $(subst +,\ ,$1)
 
-pdfs.post:=$(patsubst %,%.post,${pdfs})
-pdfs.post:${pdfs.post}
-
-${pdfs.post}:%.pdf.post:%.pdf
-		b=`basename "$<" .pdf`;\
-		t=`echo $$b | tr '+' ' '`;\
-	  d=$${b##*+}; \
-		${http} --form POST ${host}/catalogs?access_token=${token} \
-		title="$$t" contents@"$<" thumbnail@"thumbnails/$*-0.png" \
-    ocr@"ocr/$*.txt" publisher="Sherry-Lehmann Inc." date="$$d";
-
-upload-pages:
-	@for f in *.pdf; do \
-	  b=`basename "$$f" .pdf`; \
-		t=`echo $$b | tr '+' ' '`;\
-	  id=`http --form GET ${host}/catalogs?title="$$t" | jq -r .data[].id`; \
-	  if [[ $$id ]]; then \
-    for p in "images/$$b"-?.png "images/$$b"-??.png "images/$$b"-???.png; do \
-      g=$${p##*-}; g=$${g%.png};\
-      t=$${p/images/thumbnails};\
-			${http} --form POST ${host}/pages?access_token=${token} \
-      catalog_id=$$id page=$$g thumbnail@"$$t" image@"$$p" ; \
-    done \
-	  else \
-	    echo $$t NO;\
-	  fi ;\
-	done
+csvs:${csvs}
+${csvs}:csv/%.csv:%.pdf
+	echo 'filename,page,image,thumbnail,ocr' > "$@"; \
+	echo -n '"$<",,\x' >> "$@"; \
+	hexdump -v -e '/1 "%02X"' "$*.pdf" >> "$@"; \
+	echo -n ',\x' >> "$@"; \
+	hexdump -v -e '/1 "%02X"' "thumbnails/$*-0.png" >> "$@";\
+	echo -n ',\x' >> "$@";\
+	hexdump -v -e '/1 "%02X"' "ocr/$*.txt" >> "$@";\
+	echo '' >> "$@";\
+  f="images/$*-*.png"; \
+	for i in $$f; do \
+	  n=`basename $$i .png | sed -e 's/^.*-\([0-9]*\)$$/\1/'`; \
+		echo -n "\"$<\",$$n,\x" >> "$@"; \
+		hexdump -v -e '/1 "%02X"' "images/$*-$$n.png" >> "$@"; \
+		echo -n ',\x' >> "$@"; \
+		hexdump -v -e '/1 "%02X"' "thumbnails/$*-$$n.png" >> "$@";\
+		echo ',""' >> "$@";\
+  done
 
 upload-marks:
 	@declare -a v=('Catalog' 'page' 'r' 'c' 'type' 'color' 'country' 'otherdesignation' 'brandname' 'vintage_date' 'region' 'bottlesize' 'perprice' 'caseprice' ); \
@@ -106,7 +119,7 @@ upload-marks:
 	done
 
 test:
-	tail -n +2 example_markup.tsv |\
+	tail -n +2 example_markup.psv |\
 	while IFS='|' read -r -a m; do \
 		echo "vintage_year:$${m[9]}";\
 	done

@@ -7,6 +7,7 @@ create table media (
        contents bytea,
        mime_type text,
        thumbnail_png bytea,
+       thumbnail2x_png bytea,
        ocr text,
        q tsvector
 );
