@@ -16,7 +16,7 @@ services:
   pgt:
     build: ../pgt
     ports:
-      - "8081:80"
+      - "8082:80"
     environment:
       # Auth0: Price the Vintage - Dev
       - PGT_JWT=${PGT_JWT}
