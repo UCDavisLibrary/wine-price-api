@@ -11,10 +11,12 @@ SET search_path = catalogs,public,pg_catalog;
 alter database wine_price set search_path to catalogs,public,pg_catalog;
 
 CREATE TABLE countries (
-    id bigint NOT NULL,
+    country_code varchar(4) primary key,
     country text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    alpha3 varchar(3),
+    start integer,
+    end integer,
+    flag_svg text
 );
 
 CREATE TABLE languages (
@@ -25,7 +27,7 @@ CREATE TABLE languages (
 );
 
 CREATE TABLE bottle_info (
-    bottle_id text primary key,
+    bottletype text primary key,
     volume double precision,
     ratio double precision,
     notes text,
@@ -42,6 +44,7 @@ select * from
 ('Quarter',0.2,0.2667,'Used for Champagne',true,false,false),
 ('Chopine',0.25,0.33,'Traditional French unit of volume',false,true,false),
 ('Demi',0.375,0.5,'"Half" in French. Also known as a half bottle.',true,true,true),
+('Half Bottle',0.375,0.5,'"One half standard bottle.',false,false,false),
 ('Tenth',0.378,0.505,'One tenth of a US gallon*',false,false,false),
 ('Jennie',0.5,0.67,'Also known as a 50 cl bottle. Used for Tokaj, Sauternes, Jerez, as well as several other types of sweet wines, also common for cheaper wines in Switzerland.',true,false,false),
 ('Demie',0.5,0.67,'',true,false,false),

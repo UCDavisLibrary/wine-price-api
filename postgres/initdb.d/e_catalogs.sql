@@ -147,24 +147,19 @@ CREATE FUNCTION marks(pages) RETURNS bigint AS $$
 $$ LANGUAGE SQL IMMUTABLE;
 
 
-
--- CREATE TABLE wine_prices (
---     id bigint NOT NULL,
---     user_id bigint,
---     type wine.type,
---     color wine.color,
---     country text,
---     varietal text,
---     otherdesignation text,
---     brandname text,
---     winery_name text,
---     vintage_date bigint,
---     region text,
---     bottlesize wine.bottle,
---     perprice double precision,
---     caseprice double precision,
---     priceyear bigint,
---     note text,
---     created_at timestamp without time zone,
---     updated_at timestamp without time zone
--- );
+create view prices as
+select
+mark_id,name,vintage,type,
+winetype,color,country,k.country_code,
+section,
+bottletype,
+perprice::decimal(10,2),caseprice::decimal(10,2),
+page_id,page,
+-- xy,
+catalog_id,title,publisher,c.year as publication_date,
+updated
+from marks
+join pages using (page_id)
+join catalogs c using (catalog_id)
+left join countries k using (country)
+order by publication_date,vintage;
