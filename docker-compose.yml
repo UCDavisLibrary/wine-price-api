@@ -9,25 +9,25 @@ services:
     volumes:
       - winedb:/var/lib/postgresql/data
       - ./:/app
-    environment:
-      POSTGRES_DB: wine_price
-      POSTGRES_USER: postgres
+#    environment:
+#      POSTGRES_DB: wine_price
+#      POSTGRES_USER: postgres
 
-  pgt:
-    build: ./pgt
-    ports:
-      - "${PORT}:80"
-    environment:
-      - PGT_JWT=${PGT_JWT}
-      - PGT_HOST=wine-api.library.ucdavis.edu
-    links:
-      - postgres:postgres
-    depends_on:
-      - postgres
+  # pgt:
+  #   build: ./pgt
+  #   ports:
+  #     - "${PORT}:80"
+  #   environment:
+  #     - PGT_JWT=${PGT_JWT}
+  #     - PGT_HOST=wine-api.library.ucdavis.edu
+  #   links:
+  #     - postgres:postgres
+  #   depends_on:
+  #     - postgres
 
-  sync:
-    build: ./firebase-sync
-    depends_on:
-      - postgres
-    environment:
-      PRICE_THE_VINTAGE_ENV: prod
+  # sync:
+  #   build: ./firebase-sync
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     PRICE_THE_VINTAGE_ENV: prod

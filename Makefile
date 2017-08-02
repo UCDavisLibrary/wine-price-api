@@ -1,7 +1,7 @@
 #! /usr/bin/make
 
 dc:=docker-compose
-db:=wine_price
+db:=postgres
 pg:=${dc} exec --user postgres postgres
 date:=$(shell date --iso)
 dump-catalogs.Fc:=/app/Fc/catalogs_${date}.Fc

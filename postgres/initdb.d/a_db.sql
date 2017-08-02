@@ -8,16 +8,7 @@ COMMENT ON EXTENSION pgjwt IS 'JSON Web Token API for Postgresql';
 --DROP SCHEMA catalogs cascade;
 CREATE SCHEMA catalogs;
 SET search_path = catalogs,public,pg_catalog;
-alter database wine_price set search_path to catalogs,public,pg_catalog;
-
-CREATE TABLE countries (
-    country_code varchar(4) primary key,
-    country text,
-    alpha3 varchar(3),
-    start integer,
-    end integer,
-    flag_svg text
-);
+alter database :DBNAME set search_path to catalogs,public,pg_catalog;
 
 CREATE TABLE languages (
     id bigint NOT NULL,
@@ -36,7 +27,7 @@ CREATE TABLE bottle_info (
     burgandy boolean
 );
 
-insert into bottle_info (bottle_id,volume,ratio,notes,champagne,bordeaux,burgandy)
+insert into bottle_info (bottletype,volume,ratio,notes,champagne,bordeaux,burgandy)
 select * from
 (VALUES
 ('Piccolo',0.1875,0.25,'"Small" in Italian. Also known as a quarter bottle, pony, snipe or split.',true,false,false),
@@ -70,4 +61,4 @@ select * from
 ('Goliath',27,36,null,true,true,false),
 ('Melchizedek',30,40,'Biblical, King of Salem',true,false,false),
 ('Midas',30,40,'Biblical, King of Salem',true,false,false)
-) as b(bottle_id,volume,ratio,notes,champagne,bordeaux,burgandy);
+) as b(bottleinfo,volume,ratio,notes,champagne,bordeaux,burgandy);

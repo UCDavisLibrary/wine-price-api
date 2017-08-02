@@ -24,14 +24,13 @@ CREATE TABLE catalogs (
     year bigint,
     editable boolean default true,
     completed boolean default false,
-    media_id uuid references media(media_id),
     created_at timestamp without time zone default now(),
     updated_at timestamp without time zone default now()
 );
 
 
 CREATE FUNCTION q(catalogs) RETURNS tsvector AS $$
-  SELECT q from catalogs.media where media_id=$1.media_id;
+  SELECT q from catalogs.media where media_id=$1.catalog_id;
 $$ LANGUAGE SQL IMMUTABLE;
 
 -- (optional) add an index to speed up anticipated query
@@ -42,14 +41,13 @@ CREATE TABLE pages (
     page_id uuid primary key default public.gen_random_uuid(),
     catalog_id uuid references catalogs,
     page bigint,
-    media_id uuid references media(media_id),
     editable boolean default true,
     completed boolean default false,
     created_at timestamp without time zone default now()
 );
 
 CREATE FUNCTION q(pages) RETURNS tsvector AS $$
-  SELECT q from catalogs.media where media_id=$1.media_id;
+  SELECT q from catalogs.media where media_id=$1.page_id;
 $$ LANGUAGE SQL IMMUTABLE;
 
 create type catalog_page_count as (
@@ -126,7 +124,7 @@ CREATE TABLE marks (
    page_id uuid,
    xy integer[2],
    type text references mark_type (type),
-   wineType text references wine_type(wineType),
+   winetype text references wine_type(wineType),
    color text references wine_color(color),
    country text,
    name text,
@@ -135,8 +133,8 @@ CREATE TABLE marks (
    anonymous boolean,
    vintage integer,
    bottletype text,
-   perPrice double precision,
-   casePrice double precision,
+   perprice double precision,
+   caseprice double precision,
    created timestamp without time zone,
    updated timestamp without time zone
 );
@@ -153,7 +151,8 @@ mark_id,name,vintage,type,
 winetype,color,country,k.country_code,
 section,
 bottletype,
-perprice::decimal(10,2),caseprice::decimal(10,2),
+perprice::decimal(10,2),
+caseprice::decimal(10,2),
 page_id,page,
 -- xy,
 catalog_id,title,publisher,c.year as publication_date,
