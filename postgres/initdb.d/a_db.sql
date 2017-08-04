@@ -18,7 +18,7 @@ CREATE TABLE languages (
 );
 
 CREATE TABLE bottle_info (
-    bottletype text primary key,
+    bottle_type text primary key,
     volume double precision,
     ratio double precision,
     notes text,
@@ -27,7 +27,7 @@ CREATE TABLE bottle_info (
     burgandy boolean
 );
 
-insert into bottle_info (bottletype,volume,ratio,notes,champagne,bordeaux,burgandy)
+insert into bottle_info (bottle_type,volume,ratio,notes,champagne,bordeaux,burgandy)
 select * from
 (VALUES
 ('Piccolo',0.1875,0.25,'"Small" in Italian. Also known as a quarter bottle, pony, snipe or split.',true,false,false),
@@ -61,4 +61,4 @@ select * from
 ('Goliath',27,36,null,true,true,false),
 ('Melchizedek',30,40,'Biblical, King of Salem',true,false,false),
 ('Midas',30,40,'Biblical, King of Salem',true,false,false)
-) as b(bottleinfo,volume,ratio,notes,champagne,bordeaux,burgandy);
+) as b(bottle_type,volume,ratio,notes,champagne,bordeaux,burgandy);

@@ -95,7 +95,7 @@ insert into mark_type
 values ('wine'),('spirit');
 
 CREATE TABLE wine_type (
- wineType text primary key
+ wine_type text primary key
 );
 insert into wine_type
 values ('Still'),('Sparkling'),('Fortified');
@@ -121,18 +121,17 @@ create index on pending_mark_index(updated);
 CREATE TABLE marks (
    mark_id uuid primary key,
    user_id text,
-   page_id uuid,
+   page_id uuid not null,
    xy integer[2],
    type text references mark_type (type),
-   winetype text references wine_type(wineType),
+   wine_type text references wine_type(wine_type),
    color text references wine_color(color),
-   country text,
-   name text,
-   producer text,
-   section text,
+   country text references countries(country) default null,
+   name text not null,
+   section text default null,
    anonymous boolean,
-   vintage integer,
-   bottletype text,
+   vintage integer default null,
+   bottle_type text references bottle_info(bottle_type),
    perprice double precision,
    caseprice double precision,
    created timestamp without time zone,
@@ -148,9 +147,9 @@ $$ LANGUAGE SQL IMMUTABLE;
 create view prices as
 select
 mark_id,name,vintage,type,
-winetype,color,country,k.country_code,
+wine_type,color,country,k.country_code,
 section,
-bottletype,
+bottle_type,
 perprice::decimal(10,2),
 caseprice::decimal(10,2),
 page_id,page,

@@ -1,6 +1,6 @@
 CREATE TABLE countries (
     country_code varchar(4) primary key,
-    country text,
+    country text unique,
     alpha3 varchar(3),
     "start" integer,
     "end" integer,
