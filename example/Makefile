@@ -10,32 +10,23 @@ http:=/usr/local/bin/http --ignore-stdin
 
 #pdfs:=$(shell ls *.pdf)
 redo_pdfs:=\
-6-Plain+Facts+Liquor+and+Wine+Prices.New+York+State.pdf \
-16-The+Wines+of+Nicolas+are+here.pdf \
-27-Seasons+Greetings+1971-1972.pdf \
-32-Report.+The+Great+1969+Red+Burgundies.pdf \
-40-Report.+Wines+of+Europe+1970.pdf \
-43-Report.+Sale+Items+Most+in+Demand.pdf \
-55-Spring+Summer+Sale+1976.pdf \
-148-Fortnum+&+Mason+1957.pdf \
-167-Fortnum+&+Mason+1958.pdf
+210-Christmas+Catalog+1969.pdf
+#18-Report.+Present+Wine+Situation+1962.pdf \
+#24-Seasons+Greetings+1973.pdf \
+#28-Seasons+Greetings+1971+.+1972.pdf \
+#41-Letter.+Domaine+De+La+Romanee+Conti.pdf \
+#52-Vintage+of+Values+1970.pdf \
+#60-Seasons+Greetings+1967.pdf \
+#73-Letter+Bellows+&+Company+1947.pdf \
+#81-Yuletide+Vintage+of+Values+1968-1969.pdf \
+#122-Charette+of+VIns+du+Pays+1949.pdf \
+#123-Letter+1952.pdf \
+#124-Letter+Hotel+George+Paris+1948.pdf \
+#137-Letter+1957.pdf \
+#156-Memo+1956.pdf \
+#163-Seasons+Greetings+1956.pdf \
+#191-Seasons+Greetings+1967.pdf 202-Newsletter.+Price+list+1967.pdf 212-News+April+1969.pdf
 
-new_pdfs:=\
-18-Report.+Present+Wine+Situation+1962.pdf \
-24-Seasons+Greetings+1973.pdf \
-28-Seasons+Greetings+1971+.+1972.pdf \
-41-Letter.+Domaine+De+La+Romanee+Conti.pdf \
-52-Vintage+of+Values+1970.pdf \
-60-Seasons+Greetings+1967.pdf \
-73-Letter+Bellows+&+Company+1947.pdf \
-81-Yuletide+Vintage+of+Values+1968-1969.pdf \
-122-Charette+of+VIns+du+Pays+1949.pdf \
-123-Letter+1952.pdf \
-124-Letter+Hotel+George+Paris+1948.pdf \
-137-Letter+1957.pdf \
-156-Memo+1956.pdf \
-163-Seasons+Greetings+1956.pdf \
-191-Seasons+Greetings+1967.pdf 202-Newsletter.+Price+list+1967.pdf 212-News+April+1969.pdf
 
 pdfs:=${redo_pdfs} ${new_pdfs}
 
@@ -46,7 +37,8 @@ csvs:=$(patsubst %.pdf,csv/%.csv,${pdfs})
 foos:=$(patsubst %.pdf,%.foo,${pdfs})
 
 INFO:
-	@echo "This uploads example data. Try make upload"
+	@echo "This uploads example data. Try make images thumbs ocr csvs"
+	@echo "The result will be a file that can be uploaded into your db for further processing."
 	@echo pdfs: "${pdfs}"
 	@echo images: "${images}"
 
@@ -76,13 +68,15 @@ ocr.put:=$(patsubst %,%.put,${ocr})
 #s+ = $(subst \ ,+,$1)
 #+s = $(subst +,\ ,$1)
 
+# You need to use GIMP to select the 320x384 thumbnail that goes in the cover directory
+
 csvs:${csvs}
 ${csvs}:csv/%.csv:%.pdf
 	echo 'filename,page,image,thumbnail,ocr' > "$@"; \
 	echo -n '"$<",,\x' >> "$@"; \
 	hexdump -v -e '/1 "%02X"' "$*.pdf" >> "$@"; \
 	echo -n ',\x' >> "$@"; \
-	hexdump -v -e '/1 "%02X"' "thumbnails/$*-0.png" >> "$@";\
+	hexdump -v -e '/1 "%02X"' "cover/$*.png" >> "$@";\
 	echo -n ',\x' >> "$@";\
 	hexdump -v -e '/1 "%02X"' "ocr/$*.txt" >> "$@";\
 	echo '' >> "$@";\
