@@ -118,6 +118,25 @@ create index on pending_mark_index(score);
 create index on pending_mark_index(created);
 create index on pending_mark_index(updated);
 
+create view pending_marks_by_page as 
+with a as (
+ select
+ catalog_id,page_id,
+ count(*) as mark_count,
+ max(i.updated) as updated
+ from pending_mark_index i join pages p using (page_id)
+ group by catalog_id,page_id
+)
+select
+ c.catalog_id,page_id,
+ c.title,p.page,
+ mark_count,updated
+ from a join catalogs c using (catalog_id)
+ join pages p using (page_id);
+ 
+
+
+
 CREATE TABLE marks (
    mark_id uuid primary key,
    user_id text,
