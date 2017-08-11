@@ -9,6 +9,7 @@ wine-price-api-dev/.env
 # Emacs stuff
 *~
 \#*\#
+.\#*
 
 # Ignore postgres saves / restores.
 Fc/*.Fc

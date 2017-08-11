@@ -2,7 +2,7 @@ const pg = require('pg');
 
 var config = {
   user: 'postgres', //env var: PGUSER
-  database: 'wine_price', //env var: PGDATABASE
+  database: 'postgres', //env var: PGDATABASE
   host: 'postgres',
   port: 5432, //env var: PGPORT
   max: 10, // max number of clients in the pool
