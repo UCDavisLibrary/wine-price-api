@@ -30,4 +30,4 @@ services:
     depends_on:
       - postgres
     environment:
-      PRICE_THE_VINTAGE_ENV: dev
+      PRICE_THE_VINTAGE_ENV: prod

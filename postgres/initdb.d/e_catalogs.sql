@@ -104,7 +104,7 @@ CREATE TABLE wine_color (
  color text primary key
 );
 insert into wine_color
-values ('Red'),('White'),('Róse');
+values ('Red'),('White'),('Rosé');
 
 CREATE TABLE pending_mark_index (
    mark_id uuid primary key,
