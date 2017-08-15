@@ -16,8 +16,7 @@ dump-catalogs:
   --table=catalogs.catalogs --table=catalogs.pages --table=catalogs.media ${db}
 
 dump-marks:
-	${pg} pg_dump -Fc --file=${dump-marks.Fc} -a \
-  --table=catalogs.marks --table=catalogs.pending_mark_index ${db}
+	${pg} pg_dump -Fc --file=${dump-marks.Fc} -a  --table=catalogs.marks ${db}
 
 restore-catalogs:
 	${pg} pg_restore --dbname=${db} ${dump-catalogs.Fc}
