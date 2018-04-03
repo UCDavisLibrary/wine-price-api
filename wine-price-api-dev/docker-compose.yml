@@ -9,10 +9,6 @@ services:
     volumes:
       - winedb:/var/lib/postgresql/data
       - ../:/app
-    environment:
-      POSTGRES_DB: wine_price
-      POSTGRES_USER: postgres
-
   pgt:
     build: ../pgt
     ports:
@@ -20,7 +16,7 @@ services:
     environment:
       # Auth0: Price the Vintage - Dev
       - PGT_JWT=${PGT_JWT}
-      - PGT_HOST=dev-wine-api.library.ucdavis.edu
+      - PGT_HOST=localhost
     links:
       - postgres:postgres
     depends_on:
